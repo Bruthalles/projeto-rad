@@ -42,4 +42,4 @@ Isso ajudará a integrar novas funcionalidades sem afetar o escopo principal do 
 
 ---
 
-🔹 **Mantenedor(es):** *(Thalles Brumatti/@Bruthalles)*
+🔹 **Mantenedor(es):** *(Thalles Brumatti/@Bruthalles, Analista de Sistemas, Dev fullstack e gerente de projetos)*
