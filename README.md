@@ -14,6 +14,7 @@
 ## 🧠 Não Funcionais
 
 ### 📈 Desempenho
+- Em caso de erros ou conflitos não resolvidos, avisar a equipe uregentemente para evitar conflitos maiores e atrasos.
 - Separar ao máximo o conteúdo do sistema em branches.
 - Fazer commits detalhados e organizados por arquivos específicos para facilitar buscas e compreensão.
 
