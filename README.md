@@ -1,15 +1,40 @@
 # 📌 Objetivo 🏆
-
-> **Cenário dado pelo professor...** (adicione aqui uma breve descrição do projeto, se possível)
+Desenvolver um protótipo funcional de um sistema de 
+gerenciamento com emissão de carteirinhas para integrantes de um clube 
 
 ---
 
 # ⚙️ Requisitos
 
 ## 📓 Funcionais
-- Python
-- Tkinter
+- Tkinter:
+  - Criar uma interface gráfica simples e intuitiva utilizando Tkinter.
+
+  - A interface deve conter ao menos três janelas: uma para o login, uma 
+principal de gerenciamento e uma para relatórios.
+  - Na janela principal, deve haver ao menos três funcionalidades de 
+gerenciamento, como cadastro, edição e remoção de registros.
+  - Botões devem ser configurados para interagir com o banco de dados 
+(SQLite) de forma apropriada
+
 - SQLite
+  - O sistema deve utilizar um banco de dados SQLite local para armazenar 
+os dados.
+  - Criar uma tabela com ao menos 5 campos para armazenar as informações 
+de uma entidade (por exemplo, cadastro de clientes e/ou produtos).
+  - Implementar operações de CRUD (Criar, Ler, Atualizar, Apagar) na 
+aplicação, utilizando SQL e Python para manipular os dados.
+
+Funcionalidades Obrigatórias:
+- Login: O sistema deve ter um login básico (não precisa de autenticação 
+avançada) que permita o acesso ao sistema através de um nome de 
+usuário.
+- Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
+tabela principal do banco de dados.
+- Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
+que mostre os dados armazenados no banco de dados em uma nova 
+janela.
+
 
 ## 🧠 Não Funcionais
 
