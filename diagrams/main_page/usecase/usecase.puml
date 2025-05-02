@@ -1,0 +1,16 @@
+@startuml usecase_main
+left to right direction
+skinparam actorStyle awesome
+rectangle main-page{
+:admin: 
+rectangle functions{
+(cadastrar\nperfil) as cd 
+(editar\nperfil) as edit 
+(remover\nperfil) as rm
+}
+
+admin --> rm
+admin --> cd
+admin --> edit
+}
+@enduml
