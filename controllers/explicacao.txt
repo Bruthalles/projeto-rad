@@ -1,0 +1,1 @@
+nessa pasta ficará tudo que conecta o modelo e as views. Como funcções, CRUDs, validações, etc, etc
