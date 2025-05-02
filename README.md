@@ -1,14 +1,25 @@
 # 📌 Objetivo 🏆
 Desenvolver um protótipo funcional de um sistema de 
-gerenciamento com emissão de carteirinhas para integrantes de um clube 
+gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife club
+
+O parque aquático AquaLife fornecerá benefícios para sócios membros de seu clube através de um novo sistema intuitivo
 
 ---
 
 # ⚙️ Requisitos
 
 ## 📓 Funcionais
+
+  ### * Extras *
+    - [ ] Salvar data de cadastro e remoção para manipulação de relatório.
+    - [ ] Adicionar validade para renovação de membro
+    - [ ] Sistema de filtragem de buscas
+
+---
+
 - Tkinter:
   - Criar uma interface gráfica simples e intuitiva utilizando Tkinter.
+  
 
   - A interface deve conter ao menos três janelas: uma para o login, uma 
 principal de gerenciamento e uma para relatórios.
@@ -25,13 +36,13 @@ de uma entidade (por exemplo, cadastro de clientes e/ou produtos).
   - Implementar operações de CRUD (Criar, Ler, Atualizar, Apagar) na 
 aplicação, utilizando SQL e Python para manipular os dados.
 
-Funcionalidades Obrigatórias:
-- Login: O sistema deve ter um login básico (não precisa de autenticação 
+### Funcionalidades Obrigatórias:
+- [ ] Login: O sistema deve ter um login básico (não precisa de autenticação 
 avançada) que permita o acesso ao sistema através de um nome de 
 usuário.
-- Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
+- [ ] Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
 tabela principal do banco de dados.
-- Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
+- [ ] Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
 que mostre os dados armazenados no banco de dados em uma nova 
 janela.
 
