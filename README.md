@@ -14,6 +14,8 @@ O parque aquático AquaLife fornecerá benefícios para sócios membros de seu c
     - [ ] Salvar data de cadastro e remoção para manipulação de relatório.
     - [ ] Adicionar validade para renovação de membro
     - [ ] Sistema de filtragem de buscas
+    - [ ] Emitir aviso no sistema quando precisar renovar um cadastro
+    - [ ] Lista de membros que precisam de renovação
 
 ---
 
