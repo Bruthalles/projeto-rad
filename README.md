@@ -10,15 +10,6 @@ O parque aquático AquaLife fornecerá benefícios para sócios membros de seu c
 
 ## 📓 Funcionais
 
-  ### * Extras *
-    - [ ] Salvar data de cadastro e remoção para manipulação de relatório.
-    - [ ] Adicionar validade para renovação de membro
-    - [ ] Sistema de filtragem de buscas
-    - [ ] Emitir aviso no sistema quando precisar renovar um cadastro
-    - [ ] Lista de membros que precisam de renovação
-
----
-
 - Tkinter:
   - Criar uma interface gráfica simples e intuitiva utilizando Tkinter.
   
@@ -48,11 +39,19 @@ tabela principal do banco de dados.
 que mostre os dados armazenados no banco de dados em uma nova 
 janela.
 
+ ### * Extras *
+    - [ ] Salvar data de cadastro e remoção para manipulação de relatório.
+    - [ ] Adicionar validade para renovação de membro
+    - [ ] Sistema de filtragem de buscas
+    - [ ] Emitir aviso no sistema quando precisar renovar um cadastro
+    - [ ] Lista de membros que precisam de renovação
+
+---
 
 ## 🧠 Não Funcionais
 
 ### 📈 Desempenho
-- Em caso de erros ou conflitos não resolvidos, avisar a equipe uregentemente para evitar conflitos maiores e atrasos.
+- Em caso de erros ou conflitos não resolvidos, avisar a equipe com urgência para evitar conflitos maiores e atrasos.
 - Separar ao máximo o conteúdo do sistema em branches.
 - Fazer commits detalhados e organizados por arquivos específicos para facilitar buscas e compreensão.
 
