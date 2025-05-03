@@ -1,0 +1,33 @@
+@startuml classes 
+class Usuario{
+    - nome : str
+    - senha : str
+
+    validar_usuario(): bool
+}
+class Membro{
+    - id : int
+    - nome : str
+    - data_nascimento : date
+    - cpf : str
+    - endereco : str
+    - data_cadastro : date 
+    + maior_de_idade(): bool 
+    + validar_cpf(): bool 
+
+}
+class BancoDeDados{
+    + nome_banco : str
+    + conector : Connection
+
+    + conectar() : void 
+    + criar_tabela_membros() : void 
+    + cadastrar_membro() : void 
+    + buscar_todos_membros() : list 
+    + editar_membro() : void 
+    + remover_membro() : void 
+    + fechar_conexao() : void
+}
+
+BancoDeDados --> Membro : manipula
+@enduml
