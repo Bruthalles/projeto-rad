@@ -14,10 +14,10 @@ def criar_tabela():
  cursor = conn.cursor()
  cursor.execute('''
     CREATE TABLE IF NOT EXISTS membros (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        
         nome TEXT NOT NULL,
-        idade INTEGER,
-        endereco TEXT,
+        data_nascimento DATE,
+        cpf TEXT PRIMARY KEY NOT NULL,
         email TEXT UNIQUE,
         data_cadastro DATE DEFAULT (date('now')),
         status TEXT CHECK(status IN ('Ativo', 'Inativo')) DEFAULT 'Ativo'
