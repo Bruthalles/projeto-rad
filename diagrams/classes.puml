@@ -6,11 +6,10 @@ class Usuario{
     validar_usuario(): bool
 }
 class Membro{
-    - id : int
     - nome : str
     - data_nascimento : date
+    - email : str 
     - cpf : str
-    - endereco : str
     - data_cadastro : date 
     + maior_de_idade(): bool 
     + validar_cpf(): bool 
