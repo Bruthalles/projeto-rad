@@ -5,7 +5,7 @@ Descrição: [Pega a lista completa ou busca por ID específico.
 Sugestão: [Quando atualizamos as "areas" do cartao podera ter que mudar algumas coisas no codigo em geral(não só nesse) então avise para futuras modificaçoes]
 """
 
-from db import conectar_banco
+from models.db import conectar_banco
 
 def obter_membros():
  conn = conectar_banco()

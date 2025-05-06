@@ -5,7 +5,7 @@ Simples e auto explicativo POREM EU FIQUEI DUAS HORAS PROCURANDO UM ERRO NESSA M
 Sugestão: [Quando atualizamos as "areas" do cartao podera ter que mudar algumas coisas no codigo em geral(não só nesse) então avise para futuras modificaçoes]
 """
 
-from db import conectar_banco
+from models.db import conectar_banco
 
 def atualizar_membro(id_membro, novos_dados):
     conn = conectar_banco()

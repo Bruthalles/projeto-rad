@@ -4,7 +4,7 @@ Descrição: [Remove membro permanentemente.
 Use com sabedoria não tem Ctrl+Z que te salve.]
 """
 
-from db import conectar_banco
+from models.db import conectar_banco
 
 def deletar_membro(id_membro):
  conn = conectar_banco()
