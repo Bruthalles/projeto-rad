@@ -29,5 +29,21 @@ class BancoDeDados{
     + fechar_conexao() : void
 }
 
+class Tela_Login{
+    login_usuario()
+}
+class Tela_principal{
+    cadastrar_membro()
+    editar_membro() 
+    remover_membro() 
+    tela_relatorios() 
+}
+class Tela_Relatorios{
+        buscar_todos_membros()
+
+}
+Tela_Login --> Usuario : manipula
 BancoDeDados --> Membro : manipula
+Tela_Login --> Tela_principal : pós validação
+Tela_principal --> Tela_Relatorios : tela_relatorios()
 @enduml
