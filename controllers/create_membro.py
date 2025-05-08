@@ -4,20 +4,22 @@ Descrição: [Responsável por cadastrar os novo membro.
 Cuidado com email repetido, o sistema não perdoa.]
 """
 import sqlite3
-from models.db import conectar_banco
+from models.db import BancoDeDados
+bd = BancoDeDados()
 
 def criar_membro(dados):
- conn = conectar_banco()
+ conn = bd.conectar_banco()
  cursor = conn.cursor()
  try:
         cursor.execute('''
-            INSERT INTO membros (nome, idade, cpf, email)
+            INSERT INTO membros (nome, data_nascimento, cpf, email)
             VALUES (?, ?, ?, ?)
-        ''', (dados['nome'], dados['idade'], dados['endereco'], dados['email']))
+        ''', (dados.nome, dados.data_nascimento, dados.email, dados.cpf))
         conn.commit()
         return cursor.lastrowid
  except sqlite3.IntegrityError:
         print("Erro: Email já cadastrado!")
         return None
  finally:
-        conn.close()
+        
+        bd.fechar_conexao()

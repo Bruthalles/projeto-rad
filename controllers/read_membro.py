@@ -5,20 +5,20 @@ Descrição: [Pega a lista completa ou busca por ID específico.
 Sugestão: [Quando atualizamos as "areas" do cartao podera ter que mudar algumas coisas no codigo em geral(não só nesse) então avise para futuras modificaçoes]
 """
 
-from models.db import conectar_banco
-
+from models.db import BancoDeDados
+bd = BancoDeDados()
 def obter_membros():
- conn = conectar_banco()
+ conn = bd.conectar_banco()
  cursor = conn.cursor()
  cursor.execute('SELECT * FROM membros')
  membros = cursor.fetchall()
- conn.close()
+ bd.fechar_conexao()
  return membros
 
 def obter_membro_por_id(id_membro):
- conn = conectar_banco()
+ conn = bd.conectar_banco()
  cursor = conn.cursor()
  cursor.execute('SELECT * FROM membros WHERE id = ?', (id_membro,))
  membro = cursor.fetchone()
- conn.close()
+ bd.fechar_conexao()
  return membro

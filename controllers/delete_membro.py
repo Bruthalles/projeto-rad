@@ -3,13 +3,23 @@ Autor: [Hugo Leonardo Fonseca de Pinho]
 Descrição: [Remove membro permanentemente. 
 Use com sabedoria não tem Ctrl+Z que te salve.]
 """
-
-from models.db import conectar_banco
-
+from controllers.read_membro import obter_membros
+from models.db import BancoDeDados
+bd = BancoDeDados()
 def deletar_membro(id_membro):
- conn = conectar_banco()
+ conn = bd.conectar_banco()
  cursor = conn.cursor()
  cursor.execute('DELETE FROM membros WHERE id = ?', (id_membro,))
+ print("\nLista de membros:")
+ for membro in obter_membros():
+    print(membro)
  conn.commit()
- conn.close()
+ bd.fechar_conexao()
  return cursor.rowcount
+
+def limpar_tabela():
+  conn = bd.conectar_banco()
+  cursor = conn.cursor()
+  cursor.execute('DELETE FROM membros',)
+  conn.commit()
+  bd.fechar_conexao()
