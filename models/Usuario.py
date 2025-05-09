@@ -17,10 +17,3 @@ class Usuario:
             print(" tela principal")
         else: 
             print("Usuario inválido!")
-
-
-
-
-
-
-            
