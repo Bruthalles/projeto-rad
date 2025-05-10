@@ -13,7 +13,7 @@ pass_user = str(os.getenv("PASS_USER"))
 def Pg_Login():
         
     pg_login = Tk()
-    pg_login.geometry('400x400')
+    pg_login.geometry('900x500')
     frame = Frame(pg_login)
     frame.pack(expand=True)
     frame.place(relx=0.5,rely=0.5,anchor='center')
