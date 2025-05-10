@@ -30,7 +30,7 @@ de uma entidade (por exemplo, cadastro de clientes e/ou produtos).
 aplicação, utilizando SQL e Python para manipular os dados.
 
 ### Funcionalidades Obrigatórias:
-- [ ] Login: O sistema deve ter um login básico (não precisa de autenticação 
+- [X] Login: O sistema deve ter um login básico (não precisa de autenticação 
 avançada) que permita o acesso ao sistema através de um nome de 
 usuário.
 - [ ] Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
@@ -41,6 +41,7 @@ janela.
 
  ### * Extras *
     - [ ] Salvar data de cadastro e remoção para manipulação de relatório.
+    - [ ] Cadastrar apenas maiores de 18 anos
     - [ ] Adicionar validade para renovação de membro
     - [ ] Sistema de filtragem de buscas
     - [ ] Emitir aviso no sistema quando precisar renovar um cadastro
