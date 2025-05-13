@@ -43,6 +43,10 @@ def Pg_Cadastro():
                         data_nascimento = fld_birth.get(),
                         cpf = fld_cpf.get(),
                         email = fld_email.get())
+        
+        from views.home.main import InterfaceMain
+
+        InterfaceMain.inserir_dados_ficticios()
 
         if criar_membro(membro):
             aviso.config(text='Novo membro cadastrado!',fg='green')
