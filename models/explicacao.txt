@@ -1,1 +1,0 @@
-nessa pasta ficará tudo relacionado aos dados e coisas sensíveis. Como classes, banco, etc etc.
