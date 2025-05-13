@@ -2,7 +2,7 @@
 Desenvolver um protótipo funcional de um sistema de 
 gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife club
 
-O parque aquático AquaLife fornecerá benefícios para sócios membros de seu clube através de um novo sistema intuitivo
+O parque aquático AquaLife fornecerá benefícios para sócios membros de seu clube através de um novo sistema digital
 
 ---
 
