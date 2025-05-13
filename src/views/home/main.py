@@ -4,6 +4,7 @@ Descrição: [Primeira versão da tela "principal" ainda não foi adicionado tod
 
 """
 from models.db import BancoDeDados
+from controllers.read_membro import obter_membros
 import tkinter as tk
 from tkinter import ttk
 from views.cadastro.main import Pg_Cadastro
@@ -64,14 +65,13 @@ class InterfaceMain:
 
     def inserir_dados_ficticios(self):
         # Dados de exemplo
-        dados = [
-            ('João Silva', '2004-01-15' , '123.456.789-00' , 'joao@email.com'),
-            ('Maria Souza', '1980-9-12', '987.654.321-00', 'maria@email.com'),
-            ('Pedro Rocha', '1945-8-5', '456.789.123-00', 'pedro@email.com'),
-            ('Thalles Brumatti','2005-4-2','333.222.111-01','thalles@dev.com')
-        ]
-        
+        dados =  obter_membros()
+        #[
+        #     ('João Silva', '2004-01-15' , '123.456.789-00' , 'joao@email.com'),
+        #     ('Maria Souza', '1980-9-12', '987.654.321-00', 'maria@email.com'),
+        #     ('Pedro Rocha', '1945-8-5', '456.789.123-00', 'pedro@email.com'),
+        #     ('Thalles Brumatti','2005-4-2','333.222.111-01','thalles@dev.com')
+        # ]
+        self.tabela.delete(*self.tabela.get_children())
         for item in dados:
             self.tabela.insert('', 'end', values=item)
-
-    
