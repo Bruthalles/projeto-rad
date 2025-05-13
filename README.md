@@ -1,8 +1,10 @@
-# 📌 Objetivo 🏆
-Desenvolver um protótipo funcional de um sistema de 
-gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife club
+# Problema 🔎 
 
-O parque aquático AquaLife fornecerá benefícios para sócios membros de seu clube através de um novo sistema digital
+O parque aquático AquaLife precisa gerenciar seus membros de forma digital
+
+# 📌 Objetivo 🏆
+Desenvolver um sistema com interfaces gráficas de 
+gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife club
 
 ---
 
