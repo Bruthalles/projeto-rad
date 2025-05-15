@@ -11,7 +11,11 @@ def obter_membros():
  conn = bd.conectar_banco()
  cursor = conn.cursor()
  cursor.execute('SELECT * FROM membros')
- membros = cursor.fetchall()
+
+ #transforma tupla do banco para dicionario
+ colunas = [desc[0] for desc in cursor.description]
+ membros = [dict(zip(colunas, linha)) for linha in cursor.fetchall()]
+ 
  bd.fechar_conexao()
  return membros
 

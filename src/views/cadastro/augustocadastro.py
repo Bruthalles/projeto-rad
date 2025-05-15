@@ -1,9 +1,18 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+from models.Membro import Membro
+from models.db import BancoDeDados
+from controllers.create_membro import criar_membro
+from controllers.read_membro import obter_membros, obter_membro_por_id
+from controllers.update_membro import atualizar_membro
+from controllers.delete_membro import deletar_membro, limpar_tabela
 
 def Pg_Cadastro():
     root = tk.Tk()
+    banco = BancoDeDados()
+    banco.conectar_banco()
+    banco.criar_tabela()
     app = CadastroApp(root)
     root.mainloop()
 
@@ -119,26 +128,28 @@ class CadastroApp:
             self.formulario_visivel = False
     
     def cadastrar_usuario(self):
-        nome = self.entry_nome.get()
-        data_nasc = self.entry_data_nasc.get()
-        cpf = self.entry_cpf.get()
-        email = self.entry_email.get()
-        data_cadastro = datetime.now().strftime("%Y-%m-%d")
+        membro = Membro(
+            nome = self.entry_nome.get(),
+            data_nascimento = self.entry_data_nasc.get(),
+            cpf = self.entry_cpf.get(),
+            email = self.entry_email.get()
+            )
+        criar_membro(membro)
         
-        if nome and cpf and email:
-            self.adicionar_exemplo(nome, email, cpf, data_cadastro)
+        #if nome and cpf and email:
+            #self.adicionar_exemplo(nome, email, cpf, data_cadastro)
             
             # Limpar campos após cadastro
-            self.entry_nome.delete(0, tk.END)
-            self.entry_data_nasc.delete(0, tk.END)
-            self.entry_cpf.delete(0, tk.END)
-            self.entry_email.delete(0, tk.END)
+            #self.entry_nome.delete(0, tk.END)
+            #self.entry_data_nasc.delete(0, tk.END)
+            #self.entry_cpf.delete(0, tk.END)
+            #self.entry_email.delete(0, tk.END)
             
             # Esconder o formulário após cadastro
-            self.frame_formulario.pack_forget()
-            self.formulario_visivel = False
-        else:
-            messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
+            #self.frame_formulario.pack_forget()
+            #self.formulario_visivel = False
+        #else:
+            #messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
     
     def remover_usuario(self):
         selecionado = self.tree.selection()
