@@ -17,6 +17,13 @@ def Pg_Cadastro():
     root.mainloop()
 
 class CadastroApp:
+
+    def change_page(self):
+        self.root.destroy()
+
+        from views.home.home import Pg_Home
+        Pg_Home()
+
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Cadastro")
@@ -26,6 +33,9 @@ class CadastroApp:
         self.frame_botoes = tk.Frame(root)
         self.frame_botoes.pack(pady=10)
         
+        self.btn_membros = tk.Button(self.frame_botoes, text="Membros",command=self.change_page)
+        self.btn_membros.pack(side=tk.LEFT, padx=5)
+
         self.btn_cadastrar = tk.Button(self.frame_botoes, text="Cadastrar", command=self.mostrar_formulario)
         self.btn_cadastrar.pack(side=tk.LEFT, padx=5)
         
