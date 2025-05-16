@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from datetime import datetime
 from models.Membro import Membro
 from models.db import BancoDeDados
 from controllers.create_membro import criar_membro
@@ -20,15 +19,21 @@ class CadastroApp:
 
     def change_page(self):
         self.root.destroy()
-
-        from views.home.home import Pg_Home
+        
+        from views.home.home import Pg_Home #evita import circular
         Pg_Home()
 
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Cadastro")
         self.root.geometry("1000x700")
+
+        # Variável para controlar se o formulário está visível
+        self.formulario_visivel = False
         
+        # Frame do formulário de cadastro (inicialmente oculto)
+        self.frame_formulario = tk.Frame(root)
+
         # Frame superior com botões
         self.frame_botoes = tk.Frame(root)
         self.frame_botoes.pack(pady=10)
@@ -50,18 +55,20 @@ class CadastroApp:
         self.frame_lista.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         
         # Treeview para exibir os registros
-        self.tree = ttk.Treeview(self.frame_lista, columns=("Nome", "Email", "CPF", "Data Cadastro"), show="headings")
+        self.tree = ttk.Treeview(self.frame_lista, columns=("Nome","Data de Nascimento", "CPF", "Email", "Data Cadastro"), show="headings")
         
         # Configurar cabeçalhos
-        self.tree.heading("Nome", text="nome:")
-        self.tree.heading("Email", text="email:")
-        self.tree.heading("CPF", text="cpf")
-        self.tree.heading("Data Cadastro", text="data_cadastro")
+        self.tree.heading("Nome", text="Nome")
+        self.tree.heading("Data de Nascimento",text="Data de Nascimento")
+        self.tree.heading("CPF", text="CPF")
+        self.tree.heading("Email", text="Email")
+        self.tree.heading("Data Cadastro", text="Data Cadastro")
         
         # Configurar colunas
         self.tree.column("Nome", width=200)
-        self.tree.column("Email", width=200)
+        self.tree.column("Data de Nascimento", width=200)
         self.tree.column("CPF", width=150)
+        self.tree.column("Email", width=200)
         self.tree.column("Data Cadastro", width=150)
         
         # Scrollbar
@@ -99,32 +106,41 @@ class CadastroApp:
         self.adicionar_exemplo("João Silva", "joao@email.com", "123.456.789-00", "2023-05-01")
         self.adicionar_exemplo("Maria Souza", "maria@email.com", "987.654.321-00", "2023-05-02")
         
-        # Frame do formulário de cadastro (inicialmente oculto)
-        self.frame_formulario = tk.Frame(root)
-        
         # Campos do formulário
-        tk.Label(self.frame_formulario, text="nome:").grid(row=0, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="Nome:").grid(row=0, column=0, sticky="e", padx=5, pady=5)
         self.entry_nome = tk.Entry(self.frame_formulario, width=40)
         self.entry_nome.grid(row=0, column=1, padx=5, pady=5)
         
-        tk.Label(self.frame_formulario, text="data de nascimento:").grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="Data de nascimento:").grid(row=1, column=0, sticky="e", padx=5, pady=5)
         self.entry_data_nasc = tk.Entry(self.frame_formulario, width=40)
         self.entry_data_nasc.grid(row=1, column=1, padx=5, pady=5)
         
-        tk.Label(self.frame_formulario, text="cpf:").grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="Cpf:").grid(row=2, column=0, sticky="e", padx=5, pady=5)
         self.entry_cpf = tk.Entry(self.frame_formulario, width=40)
         self.entry_cpf.grid(row=2, column=1, padx=5, pady=5)
         
-        tk.Label(self.frame_formulario, text="email:").grid(row=3, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="Email:").grid(row=3, column=0, sticky="e", padx=5, pady=5)
         self.entry_email = tk.Entry(self.frame_formulario, width=40)
         self.entry_email.grid(row=3, column=1, padx=5, pady=5)
         
         # Botão de cadastrar no formulário
         self.btn_confirmar = tk.Button(self.frame_formulario, text="Cadastrar", command=self.cadastrar_usuario)
         self.btn_confirmar.grid(row=4, column=1, pady=10, sticky="e")
-        
-        # Variável para controlar se o formulário está visível
-        self.formulario_visivel = False
+
+        self.carregar_membros_do_banco()
+    
+    def carregar_membros_do_banco(self):
+        membros = obter_membros()
+        for membro in membros:
+            # Adiciona os dados na treeview
+            self.tree.insert("", "end", values=(
+                membro['nome'],
+                membro['data_nascimento'],
+                membro['cpf'],
+                membro['email'],
+                membro['data_cadastro']
+            ))
+
     
     def adicionar_exemplo(self, nome, email, cpf, data_cadastro):
         self.tree.insert("", "end", values=(nome, email, cpf, data_cadastro))
@@ -136,31 +152,30 @@ class CadastroApp:
         else:
             self.frame_formulario.pack_forget()
             self.formulario_visivel = False
-    
+            
     def cadastrar_usuario(self):
         membro = Membro(
             nome = self.entry_nome.get(),
             data_nascimento = self.entry_data_nasc.get(),
             cpf = self.entry_cpf.get(),
             email = self.entry_email.get()
-            )
-        criar_membro(membro)
-        
-        #if nome and cpf and email:
-            #self.adicionar_exemplo(nome, email, cpf, data_cadastro)
-            
+            )        
+        if (membro.nome == "" or membro.data_nascimento == "" or membro.cpf == "" or membro.email == ""):
+            messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
+
+        else:
+
+            criar_membro(membro)
             # Limpar campos após cadastro
-            #self.entry_nome.delete(0, tk.END)
-            #self.entry_data_nasc.delete(0, tk.END)
-            #self.entry_cpf.delete(0, tk.END)
-            #self.entry_email.delete(0, tk.END)
-            
+            self.entry_nome.delete(0, tk.END)
+            self.entry_data_nasc.delete(0, tk.END)
+            self.entry_cpf.delete(0, tk.END)
+            self.entry_email.delete(0, tk.END)
+                
             # Esconder o formulário após cadastro
-            #self.frame_formulario.pack_forget()
-            #self.formulario_visivel = False
-        #else:
-            #messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
-    
+            self.frame_formulario.pack_forget()
+            self.formulario_visivel = False
+
     def remover_usuario(self):
         selecionado = self.tree.selection()
         if not selecionado:
@@ -170,7 +185,8 @@ class CadastroApp:
         resposta = messagebox.askyesno("Confirmar", "Deseja realmente remover o registro selecionado?")
         if resposta:
             for item in selecionado:
-                self.tree.delete(item)
+                deletar_membro(item)
+                #self.tree.delete(item)
     
     def editar_selecionado(self):
         selecionado = self.tree.selection()
@@ -225,4 +241,3 @@ class CadastroApp:
             self.btn_confirmar.config(text="Cadastrar", command=self.cadastrar_usuario)
         else:
             messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
-

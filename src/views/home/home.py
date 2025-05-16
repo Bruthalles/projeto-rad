@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from controllers.read_membro import obter_membros
-from views.cadastro.augustocadastro import Pg_Cadastro
+from views.cadastro.cadastro import Pg_Cadastro
 
 def Pg_Home():
     root = tk.Tk()
@@ -51,7 +51,7 @@ def Pg_Home():
     
     
     for membro in obter_membros():
-        card = tk.Frame(section_membro,bd=2,relief='groove',bg='lightblue',padx=10,pady=10,width=250,height=150)
+        card = tk.Frame(section_membro,bd=2,relief='groove',bg='lightblue',padx=10,pady=10,width=250,height=180)
         card.pack(anchor='center',padx=10,pady=10)
         card.pack_propagate(False)
 
