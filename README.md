@@ -15,7 +15,6 @@ gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife cl
 - Tkinter:
   - Criar uma interface gráfica simples e intuitiva utilizando Tkinter.
   
-
   - A interface deve conter ao menos três janelas: uma para o login, uma 
 principal de gerenciamento e uma para relatórios.
   - Na janela principal, deve haver ao menos três funcionalidades de 
@@ -65,12 +64,19 @@ janela.
 - Compartilhar o perfil do LinkedIn dentro do seu `profile.md`, ajudando a fortalecer sua rede profissional e permitindo que seus colegas adicionem sua colaboração ao projeto.
 
 ---
+# Equipe 
 
+- Hugo Leonardo : Desenvolvedor (Banco de Dados e CRUD)
+- Augusto Ivan : Desenvolvedor (Interfaces e CRUD)
+- Fernando Matias : Desenvolvedor (Interfaces)
+- Thalles Brumatti : Analista e Desenvolvedor (Modelagem, Documentação, Interfaces)
+
+---
 # 🔄 Plano de Mudanças
 
 Sabemos que mudanças são inevitáveis, por isso, tentamos estar preparados.
 
-💡 Caso tenha uma sugestão de melhoria, descreva-a abaixo ou abra uma *issue*.
+💡 Caso tenha uma sugestão de melhoria, Sinta-se á vontade para caontribuir e a descreva em uma *issue*.
 
 **Formato:**
 ```
@@ -82,4 +88,4 @@ Isso ajudará a integrar novas funcionalidades sem afetar o escopo principal do 
 
 ---
 
-🔹 **Mantenedor(es):** *(Thalles Brumatti/@Bruthalles, Analista de Sistemas, Dev fullstack e gerente de projetos)*
+🔹 **Mantenedor:** *(Thalles Brumatti/@Bruthalles. Analista de Sistemas, Dev fullstack e gerente de projetos)*
