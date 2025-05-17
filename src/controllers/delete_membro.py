@@ -16,10 +16,3 @@ def deletar_membro(id_membro):
  conn.commit()
  bd.fechar_conexao()
  return cursor.rowcount
-
-def limpar_tabela():
-  conn = bd.conectar_banco()
-  cursor = conn.cursor()
-  cursor.execute('DELETE FROM membros',)
-  conn.commit()
-  bd.fechar_conexao()

@@ -26,8 +26,8 @@ class BancoDeDados:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL,
                 data_nascimento DATE,
-                cpf TEXT NOT NULL,
-                email TEXT UNIQUE,
+                cpf TEXT NOT NULL UNIQUE,
+                email TEXT ,
                 data_cadastro DATE DEFAULT (date('now')),
                 status TEXT CHECK(status IN ('Ativo', 'Inativo')) DEFAULT 'Ativo'
                 )

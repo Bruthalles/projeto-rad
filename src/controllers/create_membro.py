@@ -18,7 +18,7 @@ def criar_membro(dados):
         conn.commit()
         return cursor.lastrowid
  except sqlite3.IntegrityError:
-        print("Erro: Email já cadastrado!")
+        print("Erro: CPF já cadastrado!")
         return None
  finally:
         

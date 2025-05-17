@@ -45,7 +45,7 @@ def Pg_Home():
     lb = tk.Label(root,text='Lista de membros')
     lb.pack()
 
-    section_membro = tk.Frame(container,padx=10,pady=10)
+    section_membro = tk.Frame(scrollable_frame,padx=10,pady=10)
     section_membro.pack(fill='x')
 
     
