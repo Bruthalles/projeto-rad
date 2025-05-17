@@ -1,13 +1,14 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
 import sqlite3
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 from models.Membro import Membro
 from models.db import BancoDeDados
 from controllers.create_membro import criar_membro
-from controllers.read_membro import obter_membros, obter_membro_por_id
+from controllers.read_membro import obter_membros
 from controllers.update_membro import atualizar_membro
 from controllers.delete_membro import deletar_membro
+from views.reports.reports import Pg_Reports
 
 def Pg_Cadastro():
     root = tk.Tk()
@@ -65,8 +66,8 @@ class CadastroApp:
         self.btn_remover = tk.Button(self.frame_botoes, text="Remover", command=self.remover_membro)
         self.btn_remover.pack(side=tk.LEFT, padx=5)
         
-        self.btn_exportar = tk.Button(self.frame_botoes, text="Exportar")
-        self.btn_exportar.pack(side=tk.LEFT, padx=5)
+        self.btn_reports = tk.Button(self.frame_botoes, text="Relatórios",command=Pg_Reports)
+        self.btn_reports.pack(side=tk.LEFT, padx=5)
         
         # Frame da lista de registros
         self.frame_lista = tk.Frame(root)
@@ -159,7 +160,7 @@ class CadastroApp:
         membros = obter_membros()
         for membro in membros:
             # Adiciona os dados na treeview
-            self.tree.insert("", "end", values=(
+            self.tree.insert("", "end", iid=membro['id'] ,values=(
                 membro['id'],
                 membro['nome'],
                 membro['data_nascimento'],
@@ -184,10 +185,12 @@ class CadastroApp:
             cpf = self.entry_cpf.get(),
             email = self.entry_email.get()
             )        
+        
         if (not membro.nome or not membro.data_nascimento or not membro.cpf or not membro.email):
             messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
             return 
 
+        
         elif criar_membro(membro):
             # Limpar campos após cadastro
             self.entry_nome.delete(0, tk.END)
@@ -201,7 +204,9 @@ class CadastroApp:
             messagebox.showinfo("Sucesso!","Membro Cadastrado")
         
         else:
+            
             messagebox.showerror("Erro", "Já existe um membro com este CPF!")
+            
                 
 
     def remover_membro(self):
@@ -212,9 +217,20 @@ class CadastroApp:
         
         resposta = messagebox.askyesno("Confirmar", "Deseja realmente remover o registro selecionado?")
         if resposta:
+            
             for item in selecionado:
-                deletar_membro(item)
-                #self.tree.delete(item)
+
+                item_id = self.tree.item(selecionado[0])
+                valores = item_id['values']
+                id = valores[0]
+                cpf = valores[3]
+                
+                resultado = deletar_membro(id,cpf)
+                if resultado > 0:
+                    self.tree.delete(item)
+                    messagebox.showinfo("Sucesso","Membro Removido")
+                else:
+                    messagebox.showerror("Erro","Não foi possível remover membro")
     
     def editar_selecionado(self):
         selecionado = self.tree.selection()

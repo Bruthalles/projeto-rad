@@ -1,5 +1,7 @@
 from tkinter import * 
+from tkinter import messagebox
 import os
+from PIL import Image, ImageTk
 from dotenv import load_dotenv
 from views.home.home import Pg_Home
 
@@ -23,8 +25,12 @@ def Pg_Login():
     pg_login.title("Emissão de Carteirinhas - Login")
 
     #Componentes
-    txt_login = Label(pg_login,text="Login",font=("Arial",20))
-    txt_login.pack(pady=(20,40))
+    img_logo = Image.open('src/icons/logo.png')
+    logo_resize = img_logo.resize((380,120))
+    logo = ImageTk.PhotoImage(logo_resize)
+
+    txt_logo = Label(pg_login,image=logo)
+    txt_logo.pack(pady=(20,40))
 
     txt_usr = Label(pg_login,text='Usuário')
     txt_usr.pack(pady=0,padx=(0,115))
@@ -38,9 +44,6 @@ def Pg_Login():
     field_senha = Entry(pg_login,width=20)
     field_senha.pack(pady=(0,20))
 
-    aviso = Label(pg_login,text="",font=("Arial",12,"bold"))
-    aviso.pack(pady=(5,5))
-
     #pegando valor do elemento Entry
     def get_user():
         nm_user = str(field_usr.get())
@@ -51,11 +54,10 @@ def Pg_Login():
     def validar_usuario(in_user,in_pass):
         
         if(in_user == user_name and in_pass == pass_user):
-            aviso.config(text="Bem vindo !",fg="green")
             pg_login.destroy()
             Pg_Home()
         else: 
-            aviso.config(text="Usuario incorreto",fg="red")
+            messagebox.showerror("Erro","Usuário inválido")
     
     #simplificando a função para ser chamada
     def login():

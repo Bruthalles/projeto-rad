@@ -4,6 +4,7 @@ Descrição: [Responsável por cadastrar os novo membro.
 Cuidado com email repetido, o sistema não perdoa.]
 """
 import sqlite3
+from controllers.logs import registrar_operacao
 from models.db import BancoDeDados
 bd = BancoDeDados()
 
@@ -16,7 +17,10 @@ def criar_membro(dados):
             VALUES (?, ?, ?, ?)
         ''', (dados.nome, dados.data_nascimento, dados.cpf, dados.email))
         conn.commit()
-        return cursor.lastrowid
+        
+        if cursor.lastrowid:
+              registrar_operacao(f"Membro criado: {dados.nome} (CPF: {dados.cpf})")
+        return True
  except sqlite3.IntegrityError:
         print("Erro: CPF já cadastrado!")
         return None

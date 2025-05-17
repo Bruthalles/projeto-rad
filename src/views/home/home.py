@@ -2,18 +2,23 @@ import tkinter as tk
 from tkinter import ttk
 from controllers.read_membro import obter_membros
 from views.cadastro.cadastro import Pg_Cadastro
+from views.reports.reports import Pg_Reports
 
 def Pg_Home():
     root = tk.Tk()
     root.title("Membros cadastrados")
     root.geometry('900x500')
     
-    frame_botoes = tk.Frame(root)
-    frame_botoes.pack(padx=10,pady=10)
-
     def change_page():
         root.destroy()
         Pg_Cadastro()
+
+    # Seção para botões
+    frame_botoes = tk.Frame(root)
+    frame_botoes.pack(padx=10,pady=10)
+
+    lb = tk.Label(root,text='Lista de membros',font=("Arial",15))
+    lb.pack()
 
     #Scrollbar
     container = tk.Frame(root)
@@ -38,17 +43,17 @@ def Pg_Home():
 
     canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 
+    #Botoes
+    dados = tk.Button(frame_botoes,text='Base de Dados',command=change_page)
+    dados.pack(padx=(5,12),pady=(5,12))
 
-    cadastrar = tk.Button(frame_botoes,text='Cadastrar',command=change_page)
-    cadastrar.pack(padx=(5,12),pady=(5,12))
+    reports = tk.Button(frame_botoes,text='Relatórios',command=Pg_Reports)
+    reports.pack(padx=(5,12),pady=(5,12))
 
-    lb = tk.Label(root,text='Lista de membros')
-    lb.pack()
+
 
     section_membro = tk.Frame(scrollable_frame,padx=10,pady=10)
     section_membro.pack(fill='x')
-
-    
     
     for membro in obter_membros():
         card = tk.Frame(section_membro,bd=2,relief='groove',bg='lightblue',padx=10,pady=10,width=250,height=180)
@@ -71,8 +76,4 @@ def Pg_Home():
         cadastro.pack(anchor='w')
         status.pack(anchor='w')
 
-
-
     root.mainloop()
-
-    
