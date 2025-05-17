@@ -1,0 +1,10 @@
+[17/05/2025 17:54:07] Membro criado: arroz (CPF: 343434)
+[17/05/2025 17:55:09] Membro removido: ID 5
+[17/05/2025 18:33:13] Membro criado: thalles (CPF: 129..783......)
+[17/05/2025 18:33:54] Membro criado: thalles (CPF: 451)
+[17/05/2025 18:42:40] Membro criado: artur (CPF: 4511)
+[17/05/2025 18:42:47] Membro criado: artur (CPF: 4511111)
+[17/05/2025 18:46:52] Membro criado: waldo (CPF: 4211)
+[17/05/2025 18:47:28] Membro criado: regina (CPF: 42111)
+[17/05/2025 18:47:40] Membro removido: ID 9 (CPF: 4511111)
+[17/05/2025 18:48:00] Membro removido: ID 3 (CPF: 0)
