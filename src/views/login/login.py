@@ -32,16 +32,16 @@ def Pg_Login():
     txt_logo = Label(pg_login,image=logo)
     txt_logo.pack(pady=(20,40))
 
-    txt_usr = Label(pg_login,text='Usuário')
-    txt_usr.pack(pady=0,padx=(0,115))
+    txt_usr = Label(pg_login,text='Usuário',font=("Arial",14))
+    txt_usr.pack(pady=0,padx=(0,105))
 
-    field_usr = Entry(pg_login,width=20)
+    field_usr = Entry(pg_login,width=20,bg="#0C94B6",fg='white')
     field_usr.pack(pady=(0,20))
 
-    txt_senha = Label(pg_login, text="Senha")
-    txt_senha.pack(pady=0,padx=(0,125))
+    txt_senha = Label(pg_login, text="Senha",font=("Arial",14))
+    txt_senha.pack(pady=0,padx=(0,115))
 
-    field_senha = Entry(pg_login,width=20)
+    field_senha = Entry(pg_login,width=20,bg="#0C94B6",fg='white')
     field_senha.pack(pady=(0,20))
 
     #pegando valor do elemento Entry
@@ -65,7 +65,7 @@ def Pg_Login():
         validar_usuario(nm_user,ps_user)
 
     #parametro command deve receber uma função sem parenteses para não executar imediatamente
-    entrar = Button(pg_login,text="Entrar",height=2,width=17,bg="blue",fg="white",font=("Arial",11,"bold"),command=login)
+    entrar = Button(pg_login,text="Entrar",height=2,width=17,bg="#FBFF00",fg="black",font=("Arial",11,"bold"),command=login)
     entrar.pack(pady=(20,50))
 
     pg_login.mainloop()

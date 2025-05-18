@@ -1,5 +1,4 @@
 import tkinter as tk
-import sqlite3
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 from models.Membro import Membro
@@ -42,7 +41,14 @@ class CadastroApp:
 
         # Frame superior com botões
         self.frame_botoes = tk.Frame(root)
-        self.frame_botoes.pack(pady=10)
+        self.frame_botoes.pack(pady=10,fill='x')
+
+        #Frames divisor de botoes
+        self.frame_btn_left = tk.Frame(self.frame_botoes)
+        self.frame_btn_left.pack(side=tk.LEFT,anchor='w',padx=(7,0))
+
+        self.frame_btn_right = tk.Frame(self.frame_botoes)
+        self.frame_btn_right.pack(padx=(0,7),side=tk.RIGHT,anchor='e')
         
         #Icones
         img_load = Image.open('src/icons/reload.png')
@@ -54,24 +60,27 @@ class CadastroApp:
         self.icn_back = ImageTk.PhotoImage(back_resize)
         
         #Botoes
-        self.btn_back = tk.Button(self.frame_botoes, image=self.icn_back,command=self.change_page)
-        self.btn_back.pack(side=tk.LEFT, padx=(0,10))
+        self.btn_back = tk.Button(self.frame_btn_left, image=self.icn_back,command=self.change_page)
+        self.btn_back.pack(side=tk.LEFT, padx=(5,10))
 
-        self.btn_reload = tk.Button(self.frame_botoes,image=self.icn_load,command=self.reload)
-        self.btn_reload.pack(side=tk.LEFT,padx=(0,520))
+        self.btn_reload = tk.Button(self.frame_btn_left,image=self.icn_load,command=self.reload)
+        self.btn_reload.pack(side=tk.LEFT)
         
-        self.btn_cadastrar = tk.Button(self.frame_botoes, text="Cadastrar", command=self.mostrar_formulario)
-        self.btn_cadastrar.pack(side=tk.LEFT, padx=5)
-        
-        self.btn_remover = tk.Button(self.frame_botoes, text="Remover", command=self.remover_membro)
+        self.btn_cadastrar = tk.Button(self.frame_btn_right, text="Cadastrar", command=self.mostrar_formulario)
+        self.btn_cadastrar.pack(side=tk.LEFT, padx=(0,10))
+
+        self.btn_editar = tk.Button(self.frame_btn_right, text="Editar", command=self.carregar_membro_para_edicao)
+        self.btn_editar.pack(side=tk.LEFT, padx=5)
+
+        self.btn_remover = tk.Button(self.frame_btn_right, text="Remover", command=self.remover_membro)
         self.btn_remover.pack(side=tk.LEFT, padx=5)
         
-        self.btn_reports = tk.Button(self.frame_botoes, text="Relatórios",command=Pg_Reports)
-        self.btn_reports.pack(side=tk.LEFT, padx=5)
+        self.btn_reports = tk.Button(self.frame_btn_right, text="Relatórios",command=Pg_Reports)
+        self.btn_reports.pack(side=tk.LEFT, padx=(0,5))
         
         # Frame da lista de registros
         self.frame_lista = tk.Frame(root)
-        self.frame_lista.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.frame_lista.pack(fill=tk.BOTH, expand=True, padx=10, pady=1)
         
         # Scrollbar
         scrollbar_x = ttk.Scrollbar(self.frame_lista,orient='horizontal')
@@ -86,7 +95,6 @@ class CadastroApp:
 
         scrollbar_y.config(command=self.tree.yview)
         scrollbar_y.pack(side='left',fill='y')
-        
         
         # Configurar cabeçalhos
         self.tree.heading("ID",text='ID')
@@ -107,7 +115,6 @@ class CadastroApp:
         self.tree.column("Status",width=150)
 
         self.tree.pack(fill=tk.BOTH, expand=True)
-        
         
         # Frame para botões de ação (alternativa à coluna Ações)
         self.frame_acoes = tk.Frame(root)
@@ -180,34 +187,47 @@ class CadastroApp:
             
     def cadastrar_membro(self):
         membro = Membro(
-            nome = self.entry_nome.get(),
-            data_nascimento = self.entry_data_nasc.get(),
-            cpf = self.entry_cpf.get(),
-            email = self.entry_email.get()
-            )        
+        nome=self.entry_nome.get(),
+        data_nascimento=self.entry_data_nasc.get(),
+        cpf=self.entry_cpf.get(),
+        email=self.entry_email.get()
+        )
         
-        if (not membro.nome or not membro.data_nascimento or not membro.cpf or not membro.email):
+        if not all([membro.nome, membro.data_nascimento, membro.cpf, membro.email]):
             messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
-            return 
+            return
 
-        
-        elif criar_membro(membro):
-            # Limpar campos após cadastro
-            self.entry_nome.delete(0, tk.END)
-            self.entry_data_nasc.delete(0, tk.END)
-            self.entry_cpf.delete(0, tk.END)
-            self.entry_email.delete(0, tk.END)
-                    
-            # Esconder o formulário após cadastro
-            self.frame_formulario.pack_forget()
-            self.formulario_visivel = False
-            messagebox.showinfo("Sucesso!","Membro Cadastrado")
-        
+        # Se estiver editando um membro
+        if hasattr(self, 'id_membro_edicao'):
+            novos_dados = {
+                'nome': membro.nome,
+                'data_nascimento': membro.data_nascimento,
+                'cpf': membro.cpf,
+                'email': membro.email
+            }
+            atualizar_membro(self.id_membro_edicao, novos_dados)
+            messagebox.showinfo("Sucesso", "Membro atualizado com sucesso!")
+            del self.id_membro_edicao  # Limpa o modo de edição
         else:
-            
-            messagebox.showerror("Erro", "Já existe um membro com este CPF!")
-            
-                
+            if criar_membro(membro):
+                messagebox.showinfo("Sucesso", "Membro cadastrado com sucesso!")
+            else:
+                messagebox.showerror("Erro", "Já existe um membro com este CPF!")
+                return
+
+        # Limpar e atualizar
+        self.entry_nome.delete(0, tk.END)
+        self.entry_data_nasc.delete(0, tk.END)
+        self.entry_cpf.delete(0, tk.END)
+        self.entry_email.delete(0, tk.END)
+        self.frame_formulario.pack_forget()
+        self.formulario_visivel = False
+        self.atualizar_treeview()
+
+    def atualizar_treeview(self):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        self.carregar_membros_do_banco()
 
     def remover_membro(self):
         selecionado = self.tree.selection()
@@ -260,6 +280,33 @@ class CadastroApp:
         
         # Atualizar o botão para salvar edição
         self.btn_confirmar.config(text="Salvar Edição", command=lambda: self.salvar_edicao(item))
+
+    def carregar_membro_para_edicao(self):
+        selecionado = self.tree.selection()
+        if not selecionado:
+            messagebox.showwarning("Aviso","Selecione um membro para editar")
+            return
+        
+        membro_id = selecionado[0]
+        valores = self.tree.item(membro_id,'values')
+
+        #Preencher campos com os dados
+        self.entry_nome.delete(0,tk.END)
+        self.entry_nome.insert(0,valores[1])
+
+        self.entry_data_nasc.delete(0, tk.END)
+        self.entry_data_nasc.insert(0, valores[2])
+
+        self.entry_cpf.delete(0, tk.END)
+        self.entry_cpf.insert(0, valores[3])
+
+        self.entry_email.delete(0, tk.END)
+        self.entry_email.insert(0, valores[4])
+
+        #guardando id para função salvar
+        self.id_membro_edicao = membro_id
+        self.frame_formulario.pack()
+        self.formulario_visivel = True
 
     def salvar_edicao(self, item):
         nome = self.entry_nome.get()

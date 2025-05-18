@@ -47,11 +47,6 @@ def Pg_Home():
     dados = tk.Button(frame_botoes,text='Base de Dados',command=change_page)
     dados.pack(padx=(5,12),pady=(5,12))
 
-    reports = tk.Button(frame_botoes,text='Relatórios',command=Pg_Reports)
-    reports.pack(padx=(5,12),pady=(5,12))
-
-
-
     section_membro = tk.Frame(scrollable_frame,padx=10,pady=10)
     section_membro.pack(fill='x')
     

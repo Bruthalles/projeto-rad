@@ -5,6 +5,7 @@ Simples e auto explicativo POREM EU FIQUEI DUAS HORAS PROCURANDO UM ERRO NESSA M
 Sugestão: [Quando atualizamos as "areas" do cartao podera ter que mudar algumas coisas no codigo em geral(não só nesse) então avise para futuras modificaçoes]
 """
 
+from controllers.logs import registrar_operacao
 from models.db import BancoDeDados
 bd = BancoDeDados()
 
@@ -22,4 +23,5 @@ def atualizar_membro(id_membro, novos_dados):
     ''', valores)
     conn.commit()
     bd.fechar_conexao()
+    registrar_operacao(f"Membro atualizado: ID {id_membro}")
     return cursor.rowcount
