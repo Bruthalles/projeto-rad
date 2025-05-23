@@ -31,7 +31,7 @@ class CadastroApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Cadastro")
-        self.root.geometry("900x700")
+        self.root.geometry("800x700")
 
         # Variável para controlar se o formulário está visível
         self.formulario_visivel = False
@@ -83,18 +83,14 @@ class CadastroApp:
         self.frame_lista.pack(fill=tk.BOTH, expand=True, padx=10, pady=1)
         
         # Scrollbar
-        scrollbar_x = ttk.Scrollbar(self.frame_lista,orient='horizontal')
-        scrollbar_y = ttk.Scrollbar(self.frame_lista, orient='vertical')
+        scrollbar_x = ttk.Scrollbar(self.frame_lista, orient='vertical')
 
         # Treeview para exibir os registros
-        self.tree = ttk.Treeview(self.frame_lista, columns=("ID","Nome","Data de Nascimento", "CPF", "Email", "Data Cadastro","Status"), show="headings",yscrollcommand=scrollbar_y.set,xscrollcommand=scrollbar_x.set)
+        self.tree = ttk.Treeview(self.frame_lista, columns=("ID","Nome","Data de Nascimento", "CPF", "Email", "Data Cadastro","Status"), show="headings",yscrollcommand=scrollbar_x.set)
 
-        # Configurando Scrolls
-        scrollbar_x.config(command=self.tree.xview)
-        scrollbar_x.pack(side='bottom',fill='x')
-
-        scrollbar_y.config(command=self.tree.yview)
-        scrollbar_y.pack(side='left',fill='y')
+        # Configurando Scroll
+        scrollbar_x.config(command=self.tree.yview)
+        scrollbar_x.pack(side='left',fill='y')
         
         # Configurar cabeçalhos
         self.tree.heading("ID",text='ID')
@@ -107,38 +103,18 @@ class CadastroApp:
         
         # Configurar colunas
         self.tree.column("ID",width=50)
-        self.tree.column("Nome", width=200)
-        self.tree.column("Data de Nascimento", width=200)
-        self.tree.column("CPF", width=150)
-        self.tree.column("Email", width=200)
-        self.tree.column("Data Cadastro", width=150)
-        self.tree.column("Status",width=150)
+        self.tree.column("Nome", width=170)
+        self.tree.column("Data de Nascimento", width=100)
+        self.tree.column("CPF", width=100)
+        self.tree.column("Email", width=170)
+        self.tree.column("Data Cadastro", width=90)
+        self.tree.column("Status",width=55)
 
         self.tree.pack(fill=tk.BOTH, expand=True)
         
         # Frame para botões de ação (alternativa à coluna Ações)
         self.frame_acoes = tk.Frame(root)
         self.frame_acoes.pack(pady=5)
-        
-        # Botão de editar (para o item selecionado)
-        self.btn_editar_selecionado = tk.Button(
-            self.frame_acoes, 
-            text="Editar Selecionado", 
-            command=self.editar_selecionado,
-            bg='#99ccff',
-            width=15
-        )
-        self.btn_editar_selecionado.pack(side=tk.LEFT, padx=5)
-        
-        # Botão de remover (para o item selecionado)
-        self.btn_remover_selecionado = tk.Button(
-            self.frame_acoes, 
-            text="Remover Selecionado", 
-            command=self.remover_membro,
-            bg='#ff9999',
-            width=15
-        )
-        self.btn_remover_selecionado.pack(side=tk.LEFT, padx=5)
         
         # Campos do formulário
         tk.Label(self.frame_formulario, text="Nome:").grid(row=0, column=0, sticky="e", padx=5, pady=5)
