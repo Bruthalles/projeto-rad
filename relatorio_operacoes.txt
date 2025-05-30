@@ -44,3 +44,5 @@
 [22/05/2025 23:07:36] Membro atualizado: ID 38
 [22/05/2025 23:08:40] Membro criado: VAI DORMIR (CPF: SOCOROOO)
 [22/05/2025 23:09:32] Membro criado: CHEGA, PARA NO 40 QUE EU TENHO TOC (CPF: terra do nunca)
+[30/05/2025 11:39:06] Membro criado: aaaaaaaaaaaaaaaaaaaa (CPF: 33342222222)
+[30/05/2025 11:40:06] Membro atualizado: ID 41
