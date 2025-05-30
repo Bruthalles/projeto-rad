@@ -16,32 +16,42 @@ pass_user = str(os.getenv("PASS_USER"))
 def Pg_Login():
     
     #definindo a estrutura e formas
-    pg_login = Tk()
-    pg_login.geometry('900x500')
-    frame = Frame(pg_login)
+    root = Tk()
+    
+    largura_janela = 900
+    altura_janela = 500
+
+    largura_tela = root.winfo_screenwidth()
+    altura_Tela = root.winfo_screenheight()
+
+    pos_x = (largura_tela // 2) - (largura_janela // 2)
+    pos_y = (altura_Tela // 2) - (altura_janela // 2)
+    root.geometry(f'{largura_janela}x{altura_janela}+{pos_x}+{pos_y}')
+
+    frame = Frame(root)
     frame.pack(expand=True)
     frame.place(relx=0.5,rely=0.5,anchor='center')
 
-    pg_login.title("Emissão de Carteirinhas - Login")
+    root.title("Emissão de Carteirinhas - Login")
 
     #Componentes
     img_logo = Image.open('src/icons/logo.png')
     logo_resize = img_logo.resize((380,120))
     logo = ImageTk.PhotoImage(logo_resize)
 
-    txt_logo = Label(pg_login,image=logo)
+    txt_logo = Label(root,image=logo)
     txt_logo.pack(pady=(20,40))
 
-    txt_usr = Label(pg_login,text='Usuário',font=("Arial",14))
+    txt_usr = Label(root,text='Usuário',font=("Arial",14))
     txt_usr.pack(pady=0,padx=(0,105))
 
-    field_usr = Entry(pg_login,width=20,bg="#0C94B6",fg='white')
+    field_usr = Entry(root,width=20,bg="#0C94B6",fg='white')
     field_usr.pack(pady=(0,20))
 
-    txt_senha = Label(pg_login, text="Senha",font=("Arial",14))
+    txt_senha = Label(root, text="Senha",font=("Arial",14))
     txt_senha.pack(pady=0,padx=(0,115))
 
-    field_senha = Entry(pg_login,width=20,bg="#0C94B6",fg='white')
+    field_senha = Entry(root,width=20,bg="#0C94B6",fg='white')
     field_senha.pack(pady=(0,20))
 
     #pegando valor do elemento Entry
@@ -54,7 +64,7 @@ def Pg_Login():
     def validar_usuario(in_user,in_pass):
         
         if(in_user == user_name and in_pass == pass_user):
-            pg_login.destroy()
+            root.destroy()
             Pg_Home()
         else: 
             messagebox.showerror("Erro","Usuário inválido")
@@ -65,7 +75,7 @@ def Pg_Login():
         validar_usuario(nm_user,ps_user)
 
     #parametro command deve receber uma função sem parenteses para não executar imediatamente
-    entrar = Button(pg_login,text="Entrar",height=2,width=17,bg="#FBFF00",fg="black",font=("Arial",11,"bold"),command=login)
+    entrar = Button(root,text="Entrar",height=2,width=17,bg="#FBFF00",fg="black",font=("Arial",11,"bold"),command=login)
     entrar.pack(pady=(20,50))
 
-    pg_login.mainloop()
+    root.mainloop()

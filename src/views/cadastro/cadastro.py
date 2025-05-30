@@ -31,7 +31,17 @@ class CadastroApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Cadastro")
-        self.root.geometry("800x700")
+        
+        largura_janela = 900
+        altura_janela = 700
+
+        largura_tela = root.winfo_screenwidth()
+        altura_Tela = root.winfo_screenheight()
+
+        pos_x = (largura_tela // 2) - (largura_janela // 2)
+        pos_y = (altura_Tela // 2) - (altura_janela // 2)
+        root.geometry(f'{largura_janela}x{altura_janela}+{pos_x}+{pos_y}')
+
 
         # Variável para controlar se o formulário está visível
         self.formulario_visivel = False
