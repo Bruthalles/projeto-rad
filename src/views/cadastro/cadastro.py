@@ -8,6 +8,8 @@ from controllers.read_membro import obter_membros
 from controllers.update_membro import atualizar_membro
 from controllers.delete_membro import deletar_membro
 from views.reports.reports import Pg_Reports
+import re
+from datetime import datetime
 
 def Pg_Cadastro():
     root = tk.Tk()
@@ -41,7 +43,6 @@ class CadastroApp:
         pos_x = (largura_tela // 2) - (largura_janela // 2)
         pos_y = (altura_Tela // 2) - (altura_janela // 2)
         root.geometry(f'{largura_janela}x{altura_janela}+{pos_x}+{pos_y}')
-
 
         # Variável para controlar se o formulário está visível
         self.formulario_visivel = False
@@ -130,25 +131,122 @@ class CadastroApp:
         tk.Label(self.frame_formulario, text="Nome:").grid(row=0, column=0, sticky="e", padx=5, pady=5)
         self.entry_nome = tk.Entry(self.frame_formulario, width=40)
         self.entry_nome.grid(row=0, column=1, padx=5, pady=5)
+        self.entry_nome.bind("<KeyRelease>", self.validar_nome_em_tempo_real)
         
-        tk.Label(self.frame_formulario, text="Data de nascimento:").grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="Data de nascimento (DD/MM/AAAA):").grid(row=1, column=0, sticky="e", padx=5, pady=5)
         self.entry_data_nasc = tk.Entry(self.frame_formulario, width=40)
         self.entry_data_nasc.grid(row=1, column=1, padx=5, pady=5)
+        self.entry_data_nasc.bind("<KeyRelease>", self.formatar_data_nascimento)
         
-        tk.Label(self.frame_formulario, text="Cpf:").grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="CPF (somente números):").grid(row=2, column=0, sticky="e", padx=5, pady=5)
         self.entry_cpf = tk.Entry(self.frame_formulario, width=40)
         self.entry_cpf.grid(row=2, column=1, padx=5, pady=5)
+        self.entry_cpf.bind("<KeyRelease>", self.formatar_cpf)
         
         tk.Label(self.frame_formulario, text="Email:").grid(row=3, column=0, sticky="e", padx=5, pady=5)
         self.entry_email = tk.Entry(self.frame_formulario, width=40)
         self.entry_email.grid(row=3, column=1, padx=5, pady=5)
+        self.entry_email.bind("<FocusOut>", self.validar_email_em_tempo_real)
         
         # Botão de cadastrar no formulário
         self.btn_confirmar = tk.Button(self.frame_formulario, text="Cadastrar", command=self.cadastrar_membro)
         self.btn_confirmar.grid(row=4, column=1, pady=10, sticky="e")
 
+        # Labels para feedback de validação
+        self.lbl_feedback_nome = tk.Label(self.frame_formulario, text="", fg="red")
+        self.lbl_feedback_nome.grid(row=0, column=2, padx=5)
+        
+        self.lbl_feedback_data = tk.Label(self.frame_formulario, text="", fg="red")
+        self.lbl_feedback_data.grid(row=1, column=2, padx=5)
+        
+        self.lbl_feedback_cpf = tk.Label(self.frame_formulario, text="", fg="red")
+        self.lbl_feedback_cpf.grid(row=2, column=2, padx=5)
+        
+        self.lbl_feedback_email = tk.Label(self.frame_formulario, text="", fg="red")
+        self.lbl_feedback_email.grid(row=3, column=2, padx=5)
+
         self.carregar_membros_do_banco()
     
+    # Métodos de validação
+    def validar_nome(self, nome):
+        """Valida se o nome tem até 20 caracteres e apenas letras e espaços"""
+        return bool(re.match(r'^[a-zA-ZÀ-ÿ\s]{1,20}$', nome.strip()))
+
+    def validar_data_nascimento(self, data_str):
+        """Valida se a data é numérica e converte para formato date"""
+        try:
+            # Verifica se tem apenas números e formato básico de data
+            if not re.match(r'^\d{2}/\d{2}/\d{4}$', data_str.strip()):
+                return None
+            
+            # Converte para objeto date
+            return datetime.strptime(data_str.strip(), '%d/%m/%Y').date()
+        except ValueError:
+            return None
+
+    def validar_cpf(self, cpf):
+        """Valida se o CPF tem 11 dígitos numéricos"""
+        cpf_limpo = re.sub(r'[^\d]', '', cpf)  # Remove não-dígitos
+        return len(cpf_limpo) == 11
+
+    def validar_email(self, email):
+        """Valida o formato básico de email"""
+        return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email.strip()))
+
+    # Métodos de formatação e validação em tempo real
+    def validar_nome_em_tempo_real(self, event):
+        nome = self.entry_nome.get()
+        if not self.validar_nome(nome):
+            self.lbl_feedback_nome.config(text="Máx 20 caracteres, apenas letras")
+        else:
+            self.lbl_feedback_nome.config(text="")
+
+    def formatar_data_nascimento(self, event):
+        data = self.entry_data_nasc.get()
+        data_limpa = re.sub(r'[^\d]', '', data)
+        
+        if len(data_limpa) > 8:
+            data_limpa = data_limpa[:8]
+        
+        data_formatada = ""
+        for i in range(len(data_limpa)):
+            if i == 2 or i == 4:
+                data_formatada += "/"
+            data_formatada += data_limpa[i]
+        
+        self.entry_data_nasc.delete(0, tk.END)
+        self.entry_data_nasc.insert(0, data_formatada)
+        
+        # Validação
+        if not self.validar_data_nascimento(data_formatada):
+            self.lbl_feedback_data.config(text="Formato DD/MM/AAAA")
+        else:
+            self.lbl_feedback_data.config(text="")
+
+    def formatar_cpf(self, event):
+        cpf = self.entry_cpf.get()
+        cpf_limpo = re.sub(r'[^\d]', '', cpf)
+        
+        if len(cpf_limpo) > 11:
+            cpf_limpo = cpf_limpo[:11]
+        
+        self.entry_cpf.delete(0, tk.END)
+        self.entry_cpf.insert(0, cpf_limpo)
+        
+        # Validação
+        if not self.validar_cpf(cpf_limpo):
+            self.lbl_feedback_cpf.config(text="11 dígitos necessários")
+        else:
+            self.lbl_feedback_cpf.config(text="")
+
+    def validar_email_em_tempo_real(self, event):
+        email = self.entry_email.get()
+        if not self.validar_email(email):
+            self.lbl_feedback_email.config(text="Email inválido")
+        else:
+            self.lbl_feedback_email.config(text="")
+
+    # Métodos existentes com as novas validações
     def carregar_membros_do_banco(self):
         membros = obter_membros()
         for membro in membros:
@@ -167,21 +265,50 @@ class CadastroApp:
         if not self.formulario_visivel:
             self.frame_formulario.pack(fill=tk.X, padx=10, pady=10)
             self.formulario_visivel = True
+            # Limpar feedbacks ao mostrar o formulário
+            self.lbl_feedback_nome.config(text="")
+            self.lbl_feedback_data.config(text="")
+            self.lbl_feedback_cpf.config(text="")
+            self.lbl_feedback_email.config(text="")
         else:
             self.frame_formulario.pack_forget()
             self.formulario_visivel = False
             
     def cadastrar_membro(self):
-        membro = Membro(
-        nome=self.entry_nome.get(),
-        data_nascimento=self.entry_data_nasc.get(),
-        cpf=self.entry_cpf.get(),
-        email=self.entry_email.get()
-        )
-        
-        if not all([membro.nome, membro.data_nascimento, membro.cpf, membro.email]):
-            messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
+        # Obter valores dos campos
+        nome = self.entry_nome.get().strip()
+        data_nasc_str = self.entry_data_nasc.get().strip()
+        cpf = self.entry_cpf.get().strip()
+        email = self.entry_email.get().strip()
+
+        # Validações
+        if not self.validar_nome(nome):
+            messagebox.showwarning("Aviso", "Nome inválido! Máximo 20 caracteres e apenas letras.")
             return
+
+        data_nasc = self.validar_data_nascimento(data_nasc_str)
+        if not data_nasc:
+            messagebox.showwarning("Aviso", "Data de nascimento inválida! Use o formato DD/MM/AAAA.")
+            return
+
+        if not self.validar_cpf(cpf):
+            messagebox.showwarning("Aviso", "CPF inválido! Deve conter 11 dígitos.")
+            return
+
+        if not self.validar_email(email):
+            messagebox.showwarning("Aviso", "Email inválido! Deve conter @ e domínio válido.")
+            return
+
+        # Formatar CPF (remove caracteres não numéricos)
+        cpf_formatado = re.sub(r'[^\d]', '', cpf)
+
+        # Criar objeto Membro com dados validados
+        membro = Membro(
+            nome=nome,
+            data_nascimento=data_nasc.strftime('%Y-%m-%d'),  # Formato SQL
+            cpf=cpf_formatado,
+            email=email
+        )
 
         # Se estiver editando um membro
         if hasattr(self, 'id_membro_edicao'):
@@ -256,13 +383,16 @@ class CadastroApp:
         
         # Preencher campos
         self.entry_nome.delete(0, tk.END)
-        self.entry_nome.insert(0, valores[0])
+        self.entry_nome.insert(0, valores[1])
         
         self.entry_email.delete(0, tk.END)
-        self.entry_email.insert(0, valores[1])
+        self.entry_email.insert(0, valores[4])
         
         self.entry_cpf.delete(0, tk.END)
-        self.entry_cpf.insert(0, valores[2])
+        self.entry_cpf.insert(0, valores[3])
+        
+        self.entry_data_nasc.delete(0, tk.END)
+        self.entry_data_nasc.insert(0, valores[2])
         
         # Atualizar o botão para salvar edição
         self.btn_confirmar.config(text="Salvar Edição", command=lambda: self.salvar_edicao(item))
@@ -295,26 +425,50 @@ class CadastroApp:
         self.formulario_visivel = True
 
     def salvar_edicao(self, item):
-        nome = self.entry_nome.get()
-        email = self.entry_email.get()
-        cpf = self.entry_cpf.get()
-        data_nasc = self.entry_data_nasc.get()
+        # Obter valores validados
+        nome = self.entry_nome.get().strip()
+        data_nasc_str = self.entry_data_nasc.get().strip()
+        cpf = self.entry_cpf.get().strip()
+        email = self.entry_email.get().strip()
+
+        # Validações
+        if not self.validar_nome(nome):
+            messagebox.showwarning("Aviso", "Nome inválido! Máximo 20 caracteres e apenas letras.")
+            return
+
+        data_nasc = self.validar_data_nascimento(data_nasc_str)
+        if not data_nasc:
+            messagebox.showwarning("Aviso", "Data de nascimento inválida! Use o formato DD/MM/AAAA.")
+            return
+
+        if not self.validar_cpf(cpf):
+            messagebox.showwarning("Aviso", "CPF inválido! Deve conter 11 dígitos.")
+            return
+
+        if not self.validar_email(email):
+            messagebox.showwarning("Aviso", "Email inválido! Deve conter @ e domínio válido.")
+            return
+
+        # Atualizar os valores na treeview
+        self.tree.item(item, values=(
+            self.tree.item(item, 'values')[0],  # Mantém o ID
+            nome,
+            data_nasc_str,
+            cpf,
+            email,
+            self.tree.item(item, 'values')[5],  # Mantém a data de cadastro
+            self.tree.item(item, 'values')[6]   # Mantém o status
+        ))
         
-        if nome and cpf and email:
-            # Atualizar os valores na treeview
-            self.tree.item(item, values=(nome, email, cpf, data_nasc))
-            
-            # Limpar campos
-            self.entry_nome.delete(0, tk.END)
-            self.entry_email.delete(0, tk.END)
-            self.entry_cpf.delete(0, tk.END)
-            self.entry_data_nasc.delete(0, tk.END)
-            
-            # Esconder o formulário
-            self.frame_formulario.pack_forget()
-            self.formulario_visivel = False
-            
-            # Restaurar o botão para cadastrar
-            self.btn_confirmar.config(text="Cadastrar", command=self.cadastrar_membro)
-        else:
-            messagebox.showwarning("Aviso", "Preencha todos os campos obrigatórios!")
+        # Limpar campos
+        self.entry_nome.delete(0, tk.END)
+        self.entry_data_nasc.delete(0, tk.END)
+        self.entry_cpf.delete(0, tk.END)
+        self.entry_email.delete(0, tk.END)
+        
+        # Esconder o formulário
+        self.frame_formulario.pack_forget()
+        self.formulario_visivel = False
+        
+        # Restaurar o botão para cadastrar
+        self.btn_confirmar.config(text="Cadastrar", command=self.cadastrar_membro)
