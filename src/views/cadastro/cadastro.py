@@ -11,6 +11,11 @@ from views.reports.reports import Pg_Reports
 import re
 from datetime import datetime
 
+#Cores personalizadas
+COR_FUNDO = "#a7bdda"
+COR_PRIMARIA = "#4f64aa"
+COR_BTN_TEXTO = "#ffffffee"
+
 def Pg_Cadastro():
     root = tk.Tk()
     banco = BancoDeDados()
@@ -33,6 +38,7 @@ class CadastroApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Cadastro")
+        self.root.configure(bg=COR_FUNDO)
         
         largura_janela = 900
         altura_janela = 700
@@ -53,13 +59,16 @@ class CadastroApp:
         # Frame superior com botões
         self.frame_botoes = tk.Frame(root)
         self.frame_botoes.pack(pady=10,fill='x')
+        self.frame_botoes.configure(bg=COR_FUNDO)
 
         #Frames divisor de botoes
         self.frame_btn_left = tk.Frame(self.frame_botoes)
         self.frame_btn_left.pack(side=tk.LEFT,anchor='w',padx=(7,0))
+        self.frame_btn_left.configure(bg=COR_FUNDO)
 
         self.frame_btn_right = tk.Frame(self.frame_botoes)
         self.frame_btn_right.pack(padx=(0,7),side=tk.RIGHT,anchor='e')
+        self.frame_btn_right.configure(bg=COR_FUNDO)
         
         #Icones
         img_load = Image.open('src/icons/reload.png')

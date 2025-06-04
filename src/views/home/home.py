@@ -10,8 +10,8 @@ def Pg_Home():
     root = tk.Tk()
     root.title("Membros cadastrados")
 
-    largura_janela = 900
-    altura_janela = 500
+    largura_janela = 525
+    altura_janela = 700
 
     largura_tela = root.winfo_screenwidth()
     altura_Tela = root.winfo_screenheight()

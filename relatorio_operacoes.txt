@@ -46,3 +46,8 @@
 [22/05/2025 23:09:32] Membro criado: CHEGA, PARA NO 40 QUE EU TENHO TOC (CPF: terra do nunca)
 [30/05/2025 11:39:06] Membro criado: aaaaaaaaaaaaaaaaaaaa (CPF: 33342222222)
 [30/05/2025 11:40:06] Membro atualizado: ID 41
+[02/06/2025 10:39:26] Membro criado: rodrigo (CPF: 09128912311)
+[02/06/2025 10:40:20] Membro atualizado: ID 25
+[02/06/2025 10:40:26] Membro removido: ID 25 (CPF: 32123122134)
+[02/06/2025 10:40:33] Membro removido: ID 41 (CPF: 33342222222)
+[02/06/2025 10:40:37] Membro removido: ID 40 (CPF: terra do nunca)
