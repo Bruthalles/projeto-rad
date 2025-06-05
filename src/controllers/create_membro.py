@@ -25,5 +25,4 @@ def criar_membro(dados):
         print("Erro: CPF já cadastrado!")
         return None
  finally:
-        
-        bd.fechar_conexao(conn)
+        bd.fechar_conexao()

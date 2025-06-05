@@ -7,5 +7,5 @@ def registrar_operacao(message):
 
     log = f"[{agora}] {message}\n"
 
-    with open('relatorio_operacoes.txt','a') as f:
+    with open('src/relatorio_operacoes.txt','a') as f:
         f.write(log)

@@ -1,5 +1,4 @@
 # Problema 🔎 
-
 O parque aquático AquaLife precisa gerenciar seus membros de forma digital
 
 # 📌 Objetivo 🏆
@@ -7,10 +6,55 @@ Desenvolver um sistema com interfaces gráficas de
 gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife club
 
 ---
+# Como usar ?
+Para entrar no sistema, é necessário do login de adminstrador, encontrado no arquivo .env em src/views/login/.env 
+Execute o arquivo app.py em src/app.py e insira o nome e senha do admin. 
+
+( VERSÃO NÃO EXECUTÁVEL PRECISARÁ INSTALAR DUAS LIBS ABAIXO )
+pip install dotenv
+pip install pillow
+
+Após o login, será exibida a tela de carteirinhas. Clique no botão "Base de dados" para acessar e controlar o banco.
+Ações de cadastrar, editar e remover serão salvas no arquivo relatorio_operacoes.txt em src/relatorio_operacoes.txt
+
+# Estrutura do código fonte
+├── src
+    ├── relatorio_operacoes.txt
+    ├── app.py
+    ├── controllers
+    │   ├── __init__.py
+    │   ├── create_membro.py
+    │   ├── delete_membro.py
+    │   ├── logs.py
+    │   ├── read_membro.py
+    │   └── update_membro.py
+    ├── icons
+    │   ├── back.png
+    │   ├── logo.png
+    │   ├── reload.png
+    │   └── user_icon.png
+    ├── models
+    │   ├── Membro.py
+    │   ├── __init__.py
+    │   ├── clube.db
+    │   └── db.py
+    └── views
+    │   ├── __init__.py
+    │   ├── cadastro
+    │       └── cadastro.py
+    │   ├── home
+    │       ├── __init__.py
+    │       └── home.py
+    │   ├── login
+    │       ├── .env
+    │       ├── __init__.py
+    │       └── login.py
+    │   └── reports
+    │       ├── __init__.py
+    │       └── reports.py
+
 
 # ⚙️ Requisitos
-
-## 📓 Funcionais
 
 - Tkinter:
   - Criar uma interface gráfica simples e intuitiva utilizando Tkinter.
@@ -34,9 +78,9 @@ aplicação, utilizando SQL e Python para manipular os dados.
 - [X] Login: O sistema deve ter um login básico (não precisa de autenticação 
 avançada) que permita o acesso ao sistema através de um nome de 
 usuário.
-- [ ] Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
+- [X] Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
 tabela principal do banco de dados.
-- [ ] Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
+- [X] Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
 que mostre os dados armazenados no banco de dados em uma nova 
 janela.
 
@@ -50,20 +94,6 @@ janela.
 
 ---
 
-## 🧠 Não Funcionais
-
-### 📈 Desempenho
-- Em caso de erros ou conflitos não resolvidos, avisar a equipe com urgência para evitar conflitos maiores e atrasos.
-- Separar ao máximo o conteúdo do sistema em branches.
-- Fazer commits detalhados e organizados por arquivos específicos para facilitar buscas e compreensão.
-
-### 👓 Visibilidade (Opcional)
-- Cada integrante deve adicionar um arquivo `seu-nome.md` dentro da pasta `team_members/`.
-  - Exemplo: `team_members/Bruthalles.md`
-- Criar um fork deste repositório para aumentar seu portfólio no GitHub 😃.
-- Compartilhar o perfil do LinkedIn dentro do seu `profile.md`, ajudando a fortalecer sua rede profissional e permitindo que seus colegas adicionem sua colaboração ao projeto.
-
----
 # Equipe 
 
 - Hugo Leonardo : Desenvolvedor (Banco de Dados e CRUD)
@@ -71,21 +101,6 @@ janela.
 - Fernando Matias : Desenvolvedor (Interfaces)
 - Thalles Brumatti : Analista e Desenvolvedor (Modelagem, Documentação, Interfaces)
 
----
-# 🔄 Plano de Mudanças
 
-Sabemos que mudanças são inevitáveis, por isso, tentamos estar preparados.
-
-💡 Caso tenha uma sugestão de melhoria, Sinta-se á vontade para caontribuir e a descreva em uma *issue*.
-
-**Formato:**
-```
-Autor: [Seu Nome]
-Sugestão: [Descreva aqui a melhoria]
-```
-
-Isso ajudará a integrar novas funcionalidades sem afetar o escopo principal do projeto. 🚀
-
----
 
 🔹 **Mantenedor:** *(Thalles Brumatti/@Bruthalles. Analista de Sistemas, Dev fullstack e gerente de projetos)*

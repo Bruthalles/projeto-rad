@@ -9,8 +9,8 @@ from views.home.home import Pg_Home
 load_dotenv()
 
 #pegando usuario do arquivo .env 
-user_name = str(os.getenv("NOME_USER"))
-pass_user = str(os.getenv("PASS_USER"))
+NAME_USER = str(os.getenv("NOME_USER"))
+PASS_USER = str(os.getenv("PASS_USER"))
 
 # ""encapsulando"" a tela login
 def Pg_Login():
@@ -63,7 +63,7 @@ def Pg_Login():
     #validação simples e troca de tela
     def validar_usuario(in_user,in_pass):
         
-        if(in_user == user_name and in_pass == pass_user):
+        if(in_user == NAME_USER and in_pass == PASS_USER):
             root.destroy()
             Pg_Home()
         else: 

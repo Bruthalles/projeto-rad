@@ -11,7 +11,7 @@ from views.reports.reports import Pg_Reports
 import re
 from datetime import datetime
 
-#Cores personalizadas
+# Cores personalizadas
 COR_FUNDO = "#a7bdda"
 COR_PRIMARIA = "#4f64aa"
 COR_BTN_TEXTO = "#ffffffee"
@@ -32,7 +32,7 @@ class CadastroApp:
 
     def change_page(self):
         self.root.destroy()
-        from views.home.home import Pg_Home #evita import circular
+        from views.home.home import Pg_Home  # evita import circular
         Pg_Home()
 
     def __init__(self, root):
@@ -58,36 +58,36 @@ class CadastroApp:
 
         # Frame superior com botões
         self.frame_botoes = tk.Frame(root)
-        self.frame_botoes.pack(pady=10,fill='x')
+        self.frame_botoes.pack(pady=10, fill='x')
         self.frame_botoes.configure(bg=COR_FUNDO)
 
-        #Frames divisor de botoes
+        # Frames divisor de botoes
         self.frame_btn_left = tk.Frame(self.frame_botoes)
-        self.frame_btn_left.pack(side=tk.LEFT,anchor='w',padx=(7,0))
+        self.frame_btn_left.pack(side=tk.LEFT, anchor='w', padx=(7, 0))
         self.frame_btn_left.configure(bg=COR_FUNDO)
 
         self.frame_btn_right = tk.Frame(self.frame_botoes)
-        self.frame_btn_right.pack(padx=(0,7),side=tk.RIGHT,anchor='e')
+        self.frame_btn_right.pack(padx=(0, 7), side=tk.RIGHT, anchor='e')
         self.frame_btn_right.configure(bg=COR_FUNDO)
         
-        #Icones
+        # Icones
         img_load = Image.open('src/icons/reload.png')
-        load_resize = img_load.resize((24,24))
+        load_resize = img_load.resize((24, 24))
         self.icn_load = ImageTk.PhotoImage(load_resize)
 
         img_back = Image.open('src/icons/back.png')
-        back_resize = img_back.resize((24,24))
+        back_resize = img_back.resize((24, 24))
         self.icn_back = ImageTk.PhotoImage(back_resize)
         
-        #Botoes
-        self.btn_back = tk.Button(self.frame_btn_left, image=self.icn_back,command=self.change_page)
-        self.btn_back.pack(side=tk.LEFT, padx=(5,10))
+        # Botoes
+        self.btn_back = tk.Button(self.frame_btn_left, image=self.icn_back, command=self.change_page)
+        self.btn_back.pack(side=tk.LEFT, padx=(5, 10))
 
-        self.btn_reload = tk.Button(self.frame_btn_left,image=self.icn_load,command=self.reload)
+        self.btn_reload = tk.Button(self.frame_btn_left, image=self.icn_load, command=self.reload)
         self.btn_reload.pack(side=tk.LEFT)
         
         self.btn_cadastrar = tk.Button(self.frame_btn_right, text="Cadastrar", command=self.mostrar_formulario)
-        self.btn_cadastrar.pack(side=tk.LEFT, padx=(0,10))
+        self.btn_cadastrar.pack(side=tk.LEFT, padx=(0, 10))
 
         self.btn_editar = tk.Button(self.frame_btn_right, text="Editar", command=self.carregar_membro_para_edicao)
         self.btn_editar.pack(side=tk.LEFT, padx=5)
@@ -95,8 +95,8 @@ class CadastroApp:
         self.btn_remover = tk.Button(self.frame_btn_right, text="Remover", command=self.remover_membro)
         self.btn_remover.pack(side=tk.LEFT, padx=5)
         
-        self.btn_reports = tk.Button(self.frame_btn_right, text="Relatórios",command=Pg_Reports)
-        self.btn_reports.pack(side=tk.LEFT, padx=(0,5))
+        self.btn_reports = tk.Button(self.frame_btn_right, text="Relatórios", command=Pg_Reports)
+        self.btn_reports.pack(side=tk.LEFT, padx=(0, 5))
         
         # Frame da lista de registros
         self.frame_lista = tk.Frame(root)
@@ -106,36 +106,32 @@ class CadastroApp:
         scrollbar_x = ttk.Scrollbar(self.frame_lista, orient='vertical')
 
         # Treeview para exibir os registros
-        self.tree = ttk.Treeview(self.frame_lista, columns=("ID","Nome","Data de Nascimento", "CPF", "Email","Atestado", "Data Cadastro"), show="headings",yscrollcommand=scrollbar_x.set)
+        self.tree = ttk.Treeview(self.frame_lista, columns=("ID", "Nome", "Data de Nascimento", "CPF", "Email", "Atestado", "Data Cadastro"), 
+                                show="headings", yscrollcommand=scrollbar_x.set)
 
         # Configurando Scroll
         scrollbar_x.config(command=self.tree.yview)
-        scrollbar_x.pack(side='left',fill='y')
+        scrollbar_x.pack(side='left', fill='y')
         
         # Configurar cabeçalhos
-        self.tree.heading("ID",text='ID')
+        self.tree.heading("ID", text='ID')
         self.tree.heading("Nome", text="Nome")
-        self.tree.heading("Data de Nascimento",text="Data de Nascimento")
+        self.tree.heading("Data de Nascimento", text="Data de Nascimento")
         self.tree.heading("CPF", text="CPF")
         self.tree.heading("Email", text="Email")
-        self.tree.heading("Atestado",text="Atestado")
+        self.tree.heading("Atestado", text="Atestado")
         self.tree.heading("Data Cadastro", text="Data Cadastro")
         
-        
         # Configurar colunas
-        self.tree.column("ID",width=50)
+        self.tree.column("ID", width=50)
         self.tree.column("Nome", width=170)
         self.tree.column("Data de Nascimento", width=100)
         self.tree.column("CPF", width=100)
         self.tree.column("Email", width=170)
-        self.tree.column("Atestado",width=100)
+        self.tree.column("Atestado", width=100)
         self.tree.column("Data Cadastro", width=90)
 
         self.tree.pack(fill=tk.BOTH, expand=True)
-        
-        # Frame para botões de ação (alternativa à coluna Ações)
-        self.frame_acoes = tk.Frame(root)
-        self.frame_acoes.pack(pady=5)
         
         # Campos do formulário
         tk.Label(self.frame_formulario, text="Nome:").grid(row=0, column=0, sticky="e", padx=5, pady=5)
@@ -158,14 +154,14 @@ class CadastroApp:
         self.entry_email.grid(row=3, column=1, padx=5, pady=5)
         self.entry_email.bind("<FocusOut>", self.validar_email_em_tempo_real)
 
-        tk.Label(self.frame_formulario,text="Número do atestado:").grid(row=4,column=0,sticky="e",padx=5,pady=5)
-        self.entry_atestado = tk.Entry(self.frame_formulario,width=40)
+        tk.Label(self.frame_formulario, text="Número do atestado:").grid(row=4, column=0, sticky="e", padx=5, pady=5)
+        self.entry_atestado = tk.Entry(self.frame_formulario, width=40)
         self.entry_atestado.grid(row=4, column=1, padx=5, pady=5)
         self.entry_atestado.bind("<FocusOut>", self.validar_atestado_em_tempo_real)
         
         # Botão de cadastrar no formulário
         self.btn_enviar = tk.Button(self.frame_formulario, text="Cadastrar", command=self.cadastrar_membro)
-        self.btn_enviar.grid(row=4, column=1, pady=10, sticky="e")
+        self.btn_enviar.grid(row=5, column=1, pady=10, sticky="e")
 
         # Labels para feedback de validação
         self.lbl_feedback_nome = tk.Label(self.frame_formulario, text="", fg="red")
@@ -180,8 +176,8 @@ class CadastroApp:
         self.lbl_feedback_email = tk.Label(self.frame_formulario, text="", fg="red")
         self.lbl_feedback_email.grid(row=3, column=2, padx=5)
 
-        self.lbl_feedback_atestado = tk.Label(self.frame_formulario, text="",fg="red")
-        self.lbl_feedback_atestado.grid(row=4,column=2,padx=5)
+        self.lbl_feedback_atestado = tk.Label(self.frame_formulario, text="", fg="red")
+        self.lbl_feedback_atestado.grid(row=4, column=2, padx=5)
 
         self.carregar_membros_do_banco()
     
@@ -210,6 +206,10 @@ class CadastroApp:
     def validar_email(self, email):
         """Valida o formato básico de email"""
         return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email.strip()))        
+
+    def validar_atestado(self, valor):
+        """Valida se o atestado contém somente números e 6 a 12 dígitos"""
+        return bool(re.match(r'^\d{6,12}$', valor.strip()))
 
     # Métodos de formatação e validação em tempo real
     def validar_nome_em_tempo_real(self, event):
@@ -264,10 +264,6 @@ class CadastroApp:
         else:
             self.lbl_feedback_email.config(text="")
     
-    def validar_atestado(self, valor):
-        """Valida se o atestado contém somente números e 6 a 12 dígitos"""
-        return bool(re.match(r'^\d{6,12}$', valor.strip()))
-
     def validar_atestado_em_tempo_real(self, event):
         valor = self.entry_atestado.get()
         if not self.validar_atestado(valor):
@@ -275,13 +271,15 @@ class CadastroApp:
         else:
             self.lbl_feedback_atestado.config(text="")
 
-
-    # Métodos existentes com as novas validações
     def carregar_membros_do_banco(self):
+        """Carrega todos os membros do banco de dados na treeview"""
+        # Limpa a treeview antes de recarregar
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+            
         membros = obter_membros()
         for membro in membros:
-            # Adiciona os dados na treeview
-            self.tree.insert("", "end", iid=membro['id'] ,values=(
+            self.tree.insert("", "end", iid=membro['id'], values=(
                 membro['id'],
                 membro['nome'],
                 membro['data_nascimento'],
@@ -289,23 +287,36 @@ class CadastroApp:
                 membro['email'],
                 membro['atestado'],
                 membro['data_cadastro']
-            
             ))
 
     def mostrar_formulario(self):
+        """Mostra ou esconde o formulário de cadastro"""
         if not self.formulario_visivel:
-            self.frame_formulario.pack(fill=tk.X, padx=10, pady=10)
-            self.formulario_visivel = True
-            # Limpar feedbacks ao mostrar o formulário
+            # Limpar campos ao mostrar o formulário
+            self.entry_nome.delete(0, tk.END)
+            self.entry_data_nasc.delete(0, tk.END)
+            self.entry_cpf.delete(0, tk.END)
+            self.entry_email.delete(0, tk.END)
+            self.entry_atestado.delete(0, tk.END)
+            
+            # Configurar botão para cadastrar (não editar)
+            self.btn_enviar.config(text="Cadastrar", command=self.cadastrar_membro)
+            
+            # Limpar feedbacks
             self.lbl_feedback_nome.config(text="")
             self.lbl_feedback_data.config(text="")
             self.lbl_feedback_cpf.config(text="")
             self.lbl_feedback_email.config(text="")
+            self.lbl_feedback_atestado.config(text="")
+            
+            self.frame_formulario.pack(fill=tk.X, padx=10, pady=10)
+            self.formulario_visivel = True
         else:
             self.frame_formulario.pack_forget()
             self.formulario_visivel = False
             
     def cadastrar_membro(self):
+        """Cadastra um novo membro no banco de dados"""
         # Obter valores dos campos
         nome = self.entry_nome.get().strip()
         data_nasc_str = self.entry_data_nasc.get().strip()
@@ -314,73 +325,164 @@ class CadastroApp:
         atestado = self.entry_atestado.get().strip()
 
         # Validações
+        erros = []
         if not self.validar_nome(nome):
-            messagebox.showwarning("Aviso", "Nome inválido! Máximo 20 caracteres e apenas letras.")
-            return
+            erros.append("Nome inválido! Máximo 20 caracteres e apenas letras.")
 
         data_nasc = self.validar_data_nascimento(data_nasc_str)
         if not data_nasc:
-            messagebox.showwarning("Aviso", "Data de nascimento inválida! Use o formato DD/MM/AAAA.")
-            return
+            erros.append("Data de nascimento inválida! Use o formato DD/MM/AAAA.")
 
         if not self.validar_cpf(cpf):
-            messagebox.showwarning("Aviso", "CPF inválido! Deve conter 11 dígitos.")
-            return
+            erros.append("CPF inválido! Deve conter 11 dígitos.")
 
         if not self.validar_email(email):
-            messagebox.showwarning("Aviso", "Email inválido! Deve conter @ e domínio válido.")
-            return
-        
+            erros.append("Email inválido! Deve conter @ e domínio válido.")
+            
         if not self.validar_atestado(atestado):
-            messagebox.showwarning("Aviso","Complete o campo atestado.")
-            return
-        
+            erros.append("Atestado inválido! Deve conter 6 a 12 dígitos.")
 
-        # Formatar CPF (remove caracteres não numéricos)
-        cpf_formatado = re.sub(r'[^\d]', '', cpf)
+        if erros:
+            messagebox.showwarning("Aviso", "\n".join(erros))
+            return
 
         # Criar objeto Membro com dados validados
         membro = Membro(
             nome=nome,
             data_nascimento=data_nasc.strftime('%Y-%m-%d'),  # Formato SQL
-            cpf=cpf_formatado,
+            cpf=re.sub(r'[^\d]', '', cpf),  # Remove formatação
             email=email,
             atestado=atestado
         )
 
-        # Se estiver editando um membro
-        if hasattr(self, 'id_membro_edicao'):
-            novos_dados = {
-                'nome': membro.nome,
-                'data_nascimento': membro.data_nascimento,
-                'cpf': membro.cpf,
-                'email': membro.email
-            }
-            atualizar_membro(self.id_membro_edicao, novos_dados)
-            messagebox.showinfo("Sucesso", "Membro atualizado com sucesso!")
-            del self.id_membro_edicao  # Limpa o modo de edição
+        # Tentar cadastrar no banco
+        if criar_membro(membro):
+            messagebox.showinfo("Sucesso", "Membro cadastrado com sucesso!")
+            
+            # Limpar campos
+            self.entry_nome.delete(0, tk.END)
+            self.entry_data_nasc.delete(0, tk.END)
+            self.entry_cpf.delete(0, tk.END)
+            self.entry_email.delete(0, tk.END)
+            self.entry_atestado.delete(0, tk.END)
+            
+            # Atualizar treeview 
+            self.carregar_membros_do_banco()
+            
+            # Fechar formulário automaticamente 
+            self.frame_formulario.pack_forget()
+            self.formulario_visivel = False
         else:
-            if criar_membro(membro):
-                messagebox.showinfo("Sucesso", "Membro cadastrado com sucesso!")
-            else:
-                messagebox.showerror("Erro", "Já existe um membro com este CPF!")
-                return
+            messagebox.showerror("Erro", "Já existe um membro com este CPF!")
 
-        # Limpar e atualizar
+    def carregar_membro_para_edicao(self):
+        """Carrega os dados de um membro selecionado para edição"""
+        selecionado = self.tree.selection()
+        if not selecionado:
+            messagebox.showwarning("Aviso", "Selecione um membro para editar")
+            return
+        
+        if len(selecionado) > 1:
+            messagebox.showwarning("Aviso", "Selecione apenas um membro para editar")
+            return
+            
+        membro_id = selecionado[0]
+        valores = self.tree.item(membro_id, 'values')
+
+        # Preencher campos com os dados
         self.entry_nome.delete(0, tk.END)
-        self.entry_data_nasc.delete(0, tk.END)
-        self.entry_cpf.delete(0, tk.END)
-        self.entry_email.delete(0, tk.END)
-        self.frame_formulario.pack_forget()
-        self.formulario_visivel = False
-        self.atualizar_treeview()
+        self.entry_nome.insert(0, valores[1])
 
-    def atualizar_treeview(self):
-        for item in self.tree.get_children():
-            self.tree.delete(item)
-        self.carregar_membros_do_banco()
+        self.entry_data_nasc.delete(0, tk.END)
+        self.entry_data_nasc.insert(0, valores[2])
+
+        self.entry_cpf.delete(0, tk.END)
+        self.entry_cpf.insert(0, valores[3])
+
+        self.entry_email.delete(0, tk.END)
+        self.entry_email.insert(0, valores[4])
+
+        self.entry_atestado.delete(0, tk.END)
+        self.entry_atestado.insert(0, valores[5])
+
+        # Guardar ID para edição
+        self.id_membro_edicao = valores[0]
+        
+        # Mudar texto do botão
+        self.btn_enviar.config(text="Salvar Edição", command=self.salvar_edicao)
+        
+        # Mostrar formulário se não estiver visível
+        if not self.formulario_visivel:
+            self.frame_formulario.pack(fill=tk.X, padx=10, pady=10)
+            self.formulario_visivel = True
+
+    def salvar_edicao(self):
+        """Salva as alterações de um membro editado"""
+        if not hasattr(self, 'id_membro_edicao'):
+            return
+            
+        # Obter valores dos campos
+        nome = self.entry_nome.get().strip()
+        data_nasc_str = self.entry_data_nasc.get().strip()
+        cpf = self.entry_cpf.get().strip()
+        email = self.entry_email.get().strip()
+        atestado = self.entry_atestado.get().strip()
+
+        # Validações
+        erros = []
+        if not self.validar_nome(nome):
+            erros.append("Nome inválido! Máximo 20 caracteres e apenas letras.")
+
+        data_nasc = self.validar_data_nascimento(data_nasc_str)
+        if not data_nasc:
+            erros.append("Data de nascimento inválida! Use o formato DD/MM/AAAA.")
+
+        if not self.validar_cpf(cpf):
+            erros.append("CPF inválido! Deve conter 11 dígitos.")
+
+        if not self.validar_email(email):
+            erros.append("Email inválido! Deve conter @ e domínio válido.")
+            
+        if not self.validar_atestado(atestado):
+            erros.append("Atestado inválido! Deve conter 6 a 12 dígitos.")
+
+        if erros:
+            messagebox.showwarning("Aviso", "\n".join(erros))
+            return
+
+        # Preparar dados para atualização
+        novos_dados = {
+            'nome': nome,
+            'data_nascimento': data_nasc.strftime('%Y-%m-%d'),
+            'cpf': re.sub(r'[^\d]', '', cpf),
+            'email': email,
+            'atestado': atestado
+        }
+
+        # Atualizar no banco
+        if atualizar_membro(self.id_membro_edicao, novos_dados):
+            messagebox.showinfo("Sucesso", "Membro atualizado com sucesso!")
+            # Limpar campos e atualizar lista
+            self.entry_nome.delete(0, tk.END)
+            self.entry_data_nasc.delete(0, tk.END)
+            self.entry_cpf.delete(0, tk.END)
+            self.entry_email.delete(0, tk.END)
+            self.entry_atestado.delete(0, tk.END)
+            
+            # Atualizar treeview
+            self.carregar_membros_do_banco()
+            
+            # Esconder formulário
+            self.frame_formulario.pack_forget()
+            self.formulario_visivel = False
+            
+            # Limpar ID de edição
+            del self.id_membro_edicao
+        else:
+            messagebox.showerror("Erro", "Falha ao atualizar membro!")
 
     def remover_membro(self):
+        """Remove um membro selecionado do banco de dados"""
         selecionado = self.tree.selection()
         if not selecionado:
             messagebox.showwarning("Aviso", "Selecione um registro para remover!")
@@ -388,168 +490,14 @@ class CadastroApp:
         
         resposta = messagebox.askyesno("Confirmar", "Deseja realmente remover o registro selecionado?")
         if resposta:
-            
             for item in selecionado:
-
-                item_id = self.tree.item(selecionado[0])
+                item_id = self.tree.item(item)
                 valores = item_id['values']
-                id = valores[0]
+                id_membro = valores[0]
                 cpf = valores[3]
                 
-                resultado = deletar_membro(id,cpf)
-                if resultado > 0:
+                if deletar_membro(id_membro, cpf):
                     self.tree.delete(item)
-                    messagebox.showinfo("Sucesso","Membro Removido")
+                    messagebox.showinfo("Sucesso", "Membro removido com sucesso!")
                 else:
-                    messagebox.showerror("Erro","Não foi possível remover membro")
-    
-    def editar_selecionado(self):
-        selecionado = self.tree.selection()
-        if not selecionado:
-            messagebox.showwarning("Aviso", "Selecione um registro para editar!")
-            return
-        
-        if len(selecionado) > 1:
-            messagebox.showwarning("Aviso", "Selecione apenas um registro para editar!")
-            return
-        
-        item = selecionado[0]
-        valores = self.tree.item(item, 'values')
-        
-        # Mostrar formulário com valores pré-preenchidos
-        self.mostrar_formulario()
-        
-        # Preencher campos
-        self.entry_nome.delete(0, tk.END)
-        self.entry_nome.insert(0, valores[1])
-        
-        self.entry_email.delete(0, tk.END)
-        self.entry_email.insert(0, valores[4])
-        
-        self.entry_cpf.delete(0, tk.END)
-        self.entry_cpf.insert(0, valores[3])
-        
-        self.entry_data_nasc.delete(0, tk.END)
-        self.entry_data_nasc.insert(0, valores[2])
-        
-        # Atualizar o botão para salvar edição
-        self.btn_enviar.config(text="Salvar Edição", command=lambda: self.salvar_edicao(item))
-
-    def carregar_membro_para_edicao(self):
-        selecionado = self.tree.selection()
-        if not selecionado:
-            messagebox.showwarning("Aviso","Selecione um membro para editar")
-            return
-        
-        membro_id = selecionado[0]
-        valores = self.tree.item(membro_id,'values')
-
-        #Preencher campos com os dados
-        self.entry_nome.delete(0,tk.END)
-        self.entry_nome.insert(0,valores[1])
-
-        self.entry_data_nasc.delete(0, tk.END)
-        self.entry_data_nasc.insert(0, valores[2])
-
-        self.entry_cpf.delete(0, tk.END)
-        self.entry_cpf.insert(0, valores[3])
-
-        self.entry_email.delete(0, tk.END)
-        self.entry_email.insert(0, valores[4])
-
-        #guardando id para função salvar
-        self.id_membro_edicao = membro_id
-        self.frame_formulario.pack()
-        self.formulario_visivel = True
-
-    def cadastrar_membro(self):
-        nome = self.entry_nome.get().strip()
-        data_nasc = self.entry_data_nasc.get().strip()
-        cpf = self.entry_cpf.get().strip()
-        email = self.entry_email.get().strip()
-        atestado = self.entry_atestado.get().strip()
-
-        # Validações
-        erros = []
-
-        if not self.validar_nome(nome):
-            erros.append("Nome inválido")
-
-        data_convertida = self.validar_data_nascimento(data_nasc)
-        if not data_convertida:
-            erros.append("Data de nascimento inválida")
-
-        if not self.validar_cpf(cpf):
-            erros.append("CPF inválido")
-
-        if not self.validar_email(email):
-            erros.append("Email inválido")
-
-        if not self.validar_atestado(atestado):
-            erros.append("Número do atestado inválido")
-
-        if erros:
-            messagebox.showerror("Erro de validação", "\n".join(erros))
-            return
-
-        # Cria e salva no banco
-        membro = Membro(nome, str(data_convertida), cpf, email, atestado)
-        sucesso = criar_membro(membro)
-
-        if sucesso:
-            messagebox.showinfo("Sucesso", "Membro cadastrado com sucesso.")
-            self.frame_formulario.pack_forget()
-            self.formulario_visivel = False
-            self.carregar_membros_do_banco()
-        else:
-            messagebox.showerror("Erro", "Falha ao cadastrar membro.")
-
-
-    def salvar_edicao(self, item):
-        # Obter valores validados
-        nome = self.entry_nome.get().strip()
-        data_nasc_str = self.entry_data_nasc.get().strip()
-        cpf = self.entry_cpf.get().strip()
-        email = self.entry_email.get().strip()
-
-        # Validações
-        if not self.validar_nome(nome):
-            messagebox.showwarning("Aviso", "Nome inválido! Máximo 20 caracteres e apenas letras.")
-            return
-
-        data_nasc = self.validar_data_nascimento(data_nasc_str)
-        if not data_nasc:
-            messagebox.showwarning("Aviso", "Data de nascimento inválida! Use o formato DD/MM/AAAA.")
-            return
-
-        if not self.validar_cpf(cpf):
-            messagebox.showwarning("Aviso", "CPF inválido! Deve conter 11 dígitos.")
-            return
-
-        if not self.validar_email(email):
-            messagebox.showwarning("Aviso", "Email inválido! Deve conter @ e domínio válido.")
-            return
-
-        # Atualizar os valores na treeview
-        self.tree.item(item, values=(
-            self.tree.item(item, 'values')[0],  # Mantém o ID
-            nome,
-            data_nasc_str,
-            cpf,
-            email,
-            self.tree.item(item, 'values')[5],  # Mantém a data de cadastro
-            self.tree.item(item, 'values')[6]   # Mantém o status
-        ))
-        
-        # Limpar campos
-        self.entry_nome.delete(0, tk.END)
-        self.entry_data_nasc.delete(0, tk.END)
-        self.entry_cpf.delete(0, tk.END)
-        self.entry_email.delete(0, tk.END)
-        
-        # Esconder o formulário
-        self.frame_formulario.pack_forget()
-        self.formulario_visivel = False
-        
-        # Restaurar o botão para cadastrar
-        self.btn_enviar.config(text="Cadastrar", command=self.cadastrar_membro)
+                    messagebox.showerror("Erro", "Não foi possível remover o membro")

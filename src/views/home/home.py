@@ -76,7 +76,7 @@ def Pg_Home():
         img_label = tk.Label(img_status_frame, image=user_icon, bg='lightblue')
         img_label.pack()
 
-        status_label = tk.Label(img_status_frame, text=f'{membro["status"]}', font=("Arial", font_size), bg='lightblue')
+        status_label = tk.Label(img_status_frame, text=f'{membro["atestado"]}', font=("Arial", font_size), bg='lightblue')
         status_label.pack(pady=(10, 0))
 
         # Frame com informações lado a lado em colunas
