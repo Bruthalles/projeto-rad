@@ -1,23 +1,36 @@
-# Problema 🔎 
-O parque aquático AquaLife precisa gerenciar seus membros de forma digital
+<h1 align="center">💧 AquaLife Club – Sistema de Gerenciamento de Membros</h1>
 
-# 📌 Objetivo 🏆
-Desenvolver um sistema com interfaces gráficas de 
-gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife club
+<p align="center">
+  <img src="https://img.shields.io/badge/status-%20finalizado-darkgreen.svg" alt="Status">
+  <img src="https://img.shields.io/badge/interface-Tkinter-blue.svg" alt="Interface">
+  <img src="https://img.shields.io/badge/banco-SQLite-lightblue.svg" alt="Banco de dados">
+</p>
 
 ---
-# Como usar ?
-Para entrar no sistema, é necessário do login de adminstrador, encontrado no arquivo .env em src/views/login/.env 
 
-Execute o arquivo app.py em src/app.py e insira o nome e senha do admin. 
+## 🔍 Problema
+O parque aquático <strong>AquaLife</strong> precisa modernizar a gestão de seus membros, migrando para um sistema digital.
 
-( VERSÃO NÃO EXECUTÁVEL PRECISARÁ INSTALAR DUAS LIBS ABAIXO )
-pip install dotenv
+## 🎯 Objetivo
+Desenvolver um sistema com <strong>interfaces gráficas</strong> para gerenciamento de membros, com <strong>emissão de carteirinhas</strong> personalizadas para os integrantes do clube AquaLife.
+
+---
+
+## 🚀 Como Usar
+
+```bash
+# 1. Acesse o login de administrador
+# O arquivo está em:
+src/views/login/.env
+
+⚠️ # Inicialmente os arquivos de relatório e do banco não serão vistos pois eles são criados durante a execução
+
+# 2. Execute o sistema
+python src/app.py
+
+# 3. Se necessário, instale as dependências:
+pip install python-dotenv
 pip install pillow
-
-Após o login, será exibida a tela de carteirinhas. Clique no botão "Base de dados" para acessar e controlar o banco.
-
-Ações de cadastrar, editar e remover serão salvas no arquivo relatorio_operacoes.txt em src/relatorio_operacoes.txt
 
 # Estrutura do código fonte
 ├── src
@@ -55,7 +68,7 @@ Ações de cadastrar, editar e remover serão salvas no arquivo relatorio_operac
     │       ├── __init__.py
     │       └── reports.py
 
-
+```
 # ⚙️ Requisitos
 
 - Tkinter:
@@ -77,12 +90,12 @@ de uma entidade (por exemplo, cadastro de clientes e/ou produtos).
 aplicação, utilizando SQL e Python para manipular os dados.
 
 ### Funcionalidades Obrigatórias:
-- [X] Login: O sistema deve ter um login básico (não precisa de autenticação 
+- ✔️ Login: O sistema deve ter um login básico (não precisa de autenticação 
 avançada) que permita o acesso ao sistema através de um nome de 
 usuário.
-- [X] Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
+- ✔️ Cadastro: Deve ser possível cadastrar, listar, editar e remover registros da 
 tabela principal do banco de dados.
-- [X] Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
+- ✔️ Relatórios: Criar uma funcionalidade de geração de relatórios básicos, 
 que mostre os dados armazenados no banco de dados em uma nova 
 janela.
 
