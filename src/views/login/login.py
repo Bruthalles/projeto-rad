@@ -51,7 +51,7 @@ def Pg_Login():
     txt_senha = Label(root, text="Senha",font=("Arial",14))
     txt_senha.pack(pady=0,padx=(0,115))
 
-    field_senha = Entry(root,width=20,bg="#0C94B6",fg='white')
+    field_senha = Entry(root,width=20,bg="#0C94B6",fg='white',show="°")
     field_senha.pack(pady=(0,20))
 
     #pegando valor do elemento Entry

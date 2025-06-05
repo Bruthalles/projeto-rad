@@ -28,8 +28,8 @@ class BancoDeDados:
                 data_nascimento DATE,
                 cpf TEXT NOT NULL UNIQUE,
                 email TEXT ,
-                data_cadastro DATE DEFAULT (date('now')),
-                status TEXT CHECK(status IN ('Ativo', 'Inativo')) DEFAULT 'Ativo'
+                atestado INTEGER ,
+                data_cadastro DATE DEFAULT (date('now'))
                 )
             ''')
         self.conn.commit()

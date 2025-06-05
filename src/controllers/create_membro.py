@@ -13,9 +13,9 @@ def criar_membro(dados):
  cursor = conn.cursor()
  try:
         cursor.execute('''
-            INSERT INTO membros (nome, data_nascimento, cpf, email)
-            VALUES (?, ?, ?, ?)
-        ''', (dados.nome, dados.data_nascimento, dados.cpf, dados.email))
+            INSERT INTO membros (nome, data_nascimento, cpf, email, atestado)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (dados.nome, dados.data_nascimento, dados.cpf, dados.email,dados.atestado))
         conn.commit()
         
         if cursor.lastrowid:
@@ -26,4 +26,4 @@ def criar_membro(dados):
         return None
  finally:
         
-        bd.fechar_conexao()
+        bd.fechar_conexao(conn)

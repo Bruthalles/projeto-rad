@@ -51,3 +51,5 @@
 [02/06/2025 10:40:26] Membro removido: ID 25 (CPF: 32123122134)
 [02/06/2025 10:40:33] Membro removido: ID 41 (CPF: 33342222222)
 [02/06/2025 10:40:37] Membro removido: ID 40 (CPF: terra do nunca)
+[04/06/2025 15:47:56] Membro criado: aaaaaaaaaa (CPF: 77565463423)
+[05/06/2025 11:13:16] Membro criado: administrador (CPF: 12343212312)

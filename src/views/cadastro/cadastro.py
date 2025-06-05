@@ -40,7 +40,7 @@ class CadastroApp:
         self.root.title("Sistema de Cadastro")
         self.root.configure(bg=COR_FUNDO)
         
-        largura_janela = 900
+        largura_janela = 1100
         altura_janela = 700
 
         largura_tela = root.winfo_screenwidth()
@@ -106,7 +106,7 @@ class CadastroApp:
         scrollbar_x = ttk.Scrollbar(self.frame_lista, orient='vertical')
 
         # Treeview para exibir os registros
-        self.tree = ttk.Treeview(self.frame_lista, columns=("ID","Nome","Data de Nascimento", "CPF", "Email", "Data Cadastro","Status"), show="headings",yscrollcommand=scrollbar_x.set)
+        self.tree = ttk.Treeview(self.frame_lista, columns=("ID","Nome","Data de Nascimento", "CPF", "Email","Atestado", "Data Cadastro"), show="headings",yscrollcommand=scrollbar_x.set)
 
         # Configurando Scroll
         scrollbar_x.config(command=self.tree.yview)
@@ -118,8 +118,9 @@ class CadastroApp:
         self.tree.heading("Data de Nascimento",text="Data de Nascimento")
         self.tree.heading("CPF", text="CPF")
         self.tree.heading("Email", text="Email")
+        self.tree.heading("Atestado",text="Atestado")
         self.tree.heading("Data Cadastro", text="Data Cadastro")
-        self.tree.heading("Status",text="Status")
+        
         
         # Configurar colunas
         self.tree.column("ID",width=50)
@@ -127,8 +128,8 @@ class CadastroApp:
         self.tree.column("Data de Nascimento", width=100)
         self.tree.column("CPF", width=100)
         self.tree.column("Email", width=170)
+        self.tree.column("Atestado",width=100)
         self.tree.column("Data Cadastro", width=90)
-        self.tree.column("Status",width=55)
 
         self.tree.pack(fill=tk.BOTH, expand=True)
         
@@ -142,12 +143,12 @@ class CadastroApp:
         self.entry_nome.grid(row=0, column=1, padx=5, pady=5)
         self.entry_nome.bind("<KeyRelease>", self.validar_nome_em_tempo_real)
         
-        tk.Label(self.frame_formulario, text="Data de nascimento (DD/MM/AAAA):").grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="Data de nascimento:").grid(row=1, column=0, sticky="e", padx=5, pady=5)
         self.entry_data_nasc = tk.Entry(self.frame_formulario, width=40)
         self.entry_data_nasc.grid(row=1, column=1, padx=5, pady=5)
         self.entry_data_nasc.bind("<KeyRelease>", self.formatar_data_nascimento)
         
-        tk.Label(self.frame_formulario, text="CPF (somente números):").grid(row=2, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.frame_formulario, text="CPF:").grid(row=2, column=0, sticky="e", padx=5, pady=5)
         self.entry_cpf = tk.Entry(self.frame_formulario, width=40)
         self.entry_cpf.grid(row=2, column=1, padx=5, pady=5)
         self.entry_cpf.bind("<KeyRelease>", self.formatar_cpf)
@@ -156,10 +157,15 @@ class CadastroApp:
         self.entry_email = tk.Entry(self.frame_formulario, width=40)
         self.entry_email.grid(row=3, column=1, padx=5, pady=5)
         self.entry_email.bind("<FocusOut>", self.validar_email_em_tempo_real)
+
+        tk.Label(self.frame_formulario,text="Número do atestado:").grid(row=4,column=0,sticky="e",padx=5,pady=5)
+        self.entry_atestado = tk.Entry(self.frame_formulario,width=40)
+        self.entry_atestado.grid(row=4, column=1, padx=5, pady=5)
+        self.entry_atestado.bind("<FocusOut>", self.validar_atestado_em_tempo_real)
         
         # Botão de cadastrar no formulário
-        self.btn_confirmar = tk.Button(self.frame_formulario, text="Cadastrar", command=self.cadastrar_membro)
-        self.btn_confirmar.grid(row=4, column=1, pady=10, sticky="e")
+        self.btn_enviar = tk.Button(self.frame_formulario, text="Cadastrar", command=self.cadastrar_membro)
+        self.btn_enviar.grid(row=4, column=1, pady=10, sticky="e")
 
         # Labels para feedback de validação
         self.lbl_feedback_nome = tk.Label(self.frame_formulario, text="", fg="red")
@@ -173,6 +179,9 @@ class CadastroApp:
         
         self.lbl_feedback_email = tk.Label(self.frame_formulario, text="", fg="red")
         self.lbl_feedback_email.grid(row=3, column=2, padx=5)
+
+        self.lbl_feedback_atestado = tk.Label(self.frame_formulario, text="",fg="red")
+        self.lbl_feedback_atestado.grid(row=4,column=2,padx=5)
 
         self.carregar_membros_do_banco()
     
@@ -200,7 +209,7 @@ class CadastroApp:
 
     def validar_email(self, email):
         """Valida o formato básico de email"""
-        return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email.strip()))
+        return bool(re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email.strip()))        
 
     # Métodos de formatação e validação em tempo real
     def validar_nome_em_tempo_real(self, event):
@@ -254,6 +263,18 @@ class CadastroApp:
             self.lbl_feedback_email.config(text="Email inválido")
         else:
             self.lbl_feedback_email.config(text="")
+    
+    def validar_atestado(self, valor):
+        """Valida se o atestado contém somente números e 6 a 12 dígitos"""
+        return bool(re.match(r'^\d{6,12}$', valor.strip()))
+
+    def validar_atestado_em_tempo_real(self, event):
+        valor = self.entry_atestado.get()
+        if not self.validar_atestado(valor):
+            self.lbl_feedback_atestado.config(text="Atestado deve ter 6 a 12 números")
+        else:
+            self.lbl_feedback_atestado.config(text="")
+
 
     # Métodos existentes com as novas validações
     def carregar_membros_do_banco(self):
@@ -266,8 +287,9 @@ class CadastroApp:
                 membro['data_nascimento'],
                 membro['cpf'],
                 membro['email'],
-                membro['data_cadastro'],
-                membro['status']
+                membro['atestado'],
+                membro['data_cadastro']
+            
             ))
 
     def mostrar_formulario(self):
@@ -289,6 +311,7 @@ class CadastroApp:
         data_nasc_str = self.entry_data_nasc.get().strip()
         cpf = self.entry_cpf.get().strip()
         email = self.entry_email.get().strip()
+        atestado = self.entry_atestado.get().strip()
 
         # Validações
         if not self.validar_nome(nome):
@@ -307,6 +330,11 @@ class CadastroApp:
         if not self.validar_email(email):
             messagebox.showwarning("Aviso", "Email inválido! Deve conter @ e domínio válido.")
             return
+        
+        if not self.validar_atestado(atestado):
+            messagebox.showwarning("Aviso","Complete o campo atestado.")
+            return
+        
 
         # Formatar CPF (remove caracteres não numéricos)
         cpf_formatado = re.sub(r'[^\d]', '', cpf)
@@ -316,7 +344,8 @@ class CadastroApp:
             nome=nome,
             data_nascimento=data_nasc.strftime('%Y-%m-%d'),  # Formato SQL
             cpf=cpf_formatado,
-            email=email
+            email=email,
+            atestado=atestado
         )
 
         # Se estiver editando um membro
@@ -404,7 +433,7 @@ class CadastroApp:
         self.entry_data_nasc.insert(0, valores[2])
         
         # Atualizar o botão para salvar edição
-        self.btn_confirmar.config(text="Salvar Edição", command=lambda: self.salvar_edicao(item))
+        self.btn_enviar.config(text="Salvar Edição", command=lambda: self.salvar_edicao(item))
 
     def carregar_membro_para_edicao(self):
         selecionado = self.tree.selection()
@@ -432,6 +461,49 @@ class CadastroApp:
         self.id_membro_edicao = membro_id
         self.frame_formulario.pack()
         self.formulario_visivel = True
+
+    def cadastrar_membro(self):
+        nome = self.entry_nome.get().strip()
+        data_nasc = self.entry_data_nasc.get().strip()
+        cpf = self.entry_cpf.get().strip()
+        email = self.entry_email.get().strip()
+        atestado = self.entry_atestado.get().strip()
+
+        # Validações
+        erros = []
+
+        if not self.validar_nome(nome):
+            erros.append("Nome inválido")
+
+        data_convertida = self.validar_data_nascimento(data_nasc)
+        if not data_convertida:
+            erros.append("Data de nascimento inválida")
+
+        if not self.validar_cpf(cpf):
+            erros.append("CPF inválido")
+
+        if not self.validar_email(email):
+            erros.append("Email inválido")
+
+        if not self.validar_atestado(atestado):
+            erros.append("Número do atestado inválido")
+
+        if erros:
+            messagebox.showerror("Erro de validação", "\n".join(erros))
+            return
+
+        # Cria e salva no banco
+        membro = Membro(nome, str(data_convertida), cpf, email, atestado)
+        sucesso = criar_membro(membro)
+
+        if sucesso:
+            messagebox.showinfo("Sucesso", "Membro cadastrado com sucesso.")
+            self.frame_formulario.pack_forget()
+            self.formulario_visivel = False
+            self.carregar_membros_do_banco()
+        else:
+            messagebox.showerror("Erro", "Falha ao cadastrar membro.")
+
 
     def salvar_edicao(self, item):
         # Obter valores validados
@@ -480,4 +552,4 @@ class CadastroApp:
         self.formulario_visivel = False
         
         # Restaurar o botão para cadastrar
-        self.btn_confirmar.config(text="Cadastrar", command=self.cadastrar_membro)
+        self.btn_enviar.config(text="Cadastrar", command=self.cadastrar_membro)
