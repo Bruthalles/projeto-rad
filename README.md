@@ -8,6 +8,7 @@ gerenciamento com emissão de carteirinhas para integrantes do clube AquaLife cl
 ---
 # Como usar ?
 Para entrar no sistema, é necessário do login de adminstrador, encontrado no arquivo .env em src/views/login/.env 
+
 Execute o arquivo app.py em src/app.py e insira o nome e senha do admin. 
 
 ( VERSÃO NÃO EXECUTÁVEL PRECISARÁ INSTALAR DUAS LIBS ABAIXO )
@@ -15,6 +16,7 @@ pip install dotenv
 pip install pillow
 
 Após o login, será exibida a tela de carteirinhas. Clique no botão "Base de dados" para acessar e controlar o banco.
+
 Ações de cadastrar, editar e remover serão salvas no arquivo relatorio_operacoes.txt em src/relatorio_operacoes.txt
 
 # Estrutura do código fonte
